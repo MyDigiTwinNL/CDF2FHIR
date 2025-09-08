@@ -4,60 +4,10 @@ import * as path from 'path';
 import { MappingTarget, transform } from './mapper'
 import {InputSingleton} from './inputSingleton'
 import { UnexpectedInputException } from './unexpectedInputException';
+import { Command } from "commander";
 import { type } from 'os';
 
 
-const targets: MappingTarget[] = [
-  
-  { "template": '../zib-2017-mappings/BloodPressure.jsonata', "module": './lifelines/BloodPressure' },
-  { "template": '../zib-2017-mappings/LDLCholesterol_Diagnostic_Report.jsonata', "module": './lifelines/LDLCholesterol' },
-  { "template": '../zib-2017-mappings/LDLCholesterol_Observation.jsonata', "module": './lifelines/LDLCholesterol' },
-  { "template": '../zib-2017-mappings/LDLCholesterol_Specimen.jsonata', "module": './lifelines/LDLCholesterol' },
-  { "template": '../zib-2017-mappings/Hypertension.jsonata', "module": './lifelines/Hypertension' },
-  
-  { "template": '../zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata', "module": './lifelines/HDLCholesterol' },
-  { "template": '../zib-2017-mappings/generic/LabTestResult_Observation.jsonata', "module": './lifelines/HDLCholesterol' },
-  { "template": '../zib-2017-mappings/generic/LabTestResult_Specimen.jsonata', "module": './lifelines/HDLCholesterol' },
-
-  { "template": '../zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/Diabetes' },
-  { "template": '../zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/Stroke' },
-  { "template": '../zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/MyocardialInfarction' },
-  { "template": '../zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/HeartFailure' },  
-  { "template": '../zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/CardioVascularDisease' },  
-
-  { "module": './lifelines/eGFR', "template": '../zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata' },
-  { "module": './lifelines/eGFR', "template": '../zib-2017-mappings/generic/LabTestResult_Observation.jsonata' },
-  { "module": './lifelines/eGFR', "template": '../zib-2017-mappings/generic/LabTestResult_Specimen.jsonata' },
-
-  { "module": './lifelines/HaemoglobinConcentration', "template": '../zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata' },
-  { "module": './lifelines/HaemoglobinConcentration', "template": '../zib-2017-mappings/generic/LabTestResult_Observation.jsonata' },
-  { "module": './lifelines/HaemoglobinConcentration', "template": '../zib-2017-mappings/generic/LabTestResult_Specimen.jsonata' },
-
-  { "module": './lifelines/HbA1c', "template": '../zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata' },
-  { "module": './lifelines/HbA1c', "template": '../zib-2017-mappings/generic/LabTestResult_Observation.jsonata' },
-  { "module": './lifelines/HbA1c', "template": '../zib-2017-mappings/generic/LabTestResult_Specimen.jsonata' },
-
-  { "module": './lifelines/Creatinine', "template": '../zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata' },
-  { "module": './lifelines/Creatinine', "template": '../zib-2017-mappings/generic/LabTestResult_Observation.jsonata' },
-  { "module": './lifelines/Creatinine', "template": '../zib-2017-mappings/generic/LabTestResult_Specimen.jsonata' },
-
-  { "module": './lifelines/PlasmaAlbumin', "template": '../zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata' },
-  { "module": './lifelines/PlasmaAlbumin', "template": '../zib-2017-mappings/generic/LabTestResult_Observation.jsonata' },
-  { "module": './lifelines/PlasmaAlbumin', "template": '../zib-2017-mappings/generic/LabTestResult_Specimen.jsonata' },
-
-
-  { "template": '../zib-2017-mappings/TobaccoUse.jsonata', "module": './lifelines/TobaccoUse' },  
-  { "template": '../zib-2017-mappings/TotalCholesterol_Diagnostic_Report.jsonata', "module": './lifelines/TotalCholesterol' },
-  { "template": '../zib-2017-mappings/TotalCholesterol_Observation.jsonata', "module": './lifelines/TotalCholesterol' },
-  { "template": '../zib-2017-mappings/TotalCholesterol_Specimen.jsonata', "module": './lifelines/TotalCholesterol' },
-  { "template": '../zib-2017-mappings/Patient.jsonata', "module": './lifelines/Patient' },
-
-  { "module": './lifelines/ResearchSubjectAndStudy', "template": '../zib-2017-mappings/ResearchStudy.jsonata' },
-  { "module": './lifelines/ResearchSubjectAndStudy', "template": '../zib-2017-mappings/ResearchSubject.jsonata' },
-
-
-
-]
 
 /**
  * //To resolve all relative paths from the 'dist' folder.
@@ -67,15 +17,15 @@ const resolveLocalPath = () => {
   process.chdir(folderPath);
 }
 
-const inputFileToStdout = (filePath: string) => {
+const inputFileToStdout = (inputFilePath: string, mappingTargets:MappingTarget[]) => {
   resolveLocalPath();
 
   /*Transformation performed with a mutex to prevent async race conditions due to the shared variable (InputSingletone)
     between the mapping modules and the JSONata templates. The mutex is released after the transformation is performed
     so the input cannot be changed in the process.*/
   InputSingleton.getInstance().getMutex().acquire().then((releasemutex) => {
-    const input = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    transform(input, targets).then((output) => {
+    const input = JSON.parse(fs.readFileSync(inputFilePath, 'utf8'));
+    transform(input, mappingTargets).then((output) => {
       console.info(JSON.stringify(output));
       releasemutex();
     })
@@ -85,7 +35,7 @@ const inputFileToStdout = (filePath: string) => {
   
 }
 
-const inputFileToFolder = async (filePath: string, outputFolder: string) => {
+const inputFileToFolder = async (filePath: string, outputFolder: string, mappingTargets:MappingTarget[]) => {
   //To resolve all relative paths from the 'dist' folder.
   resolveLocalPath();
 
@@ -93,7 +43,7 @@ const inputFileToFolder = async (filePath: string, outputFolder: string) => {
   
   try {
     const input = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    const output = await transform(input, targets);
+    const output = await transform(input, mappingTargets);
     const fileName = path.basename(filePath);
     const fileExtension = path.extname(filePath);
     const fileNameWithoutExtension = fileName.replace(fileExtension, '');
@@ -117,7 +67,7 @@ const inputFileToFolder = async (filePath: string, outputFolder: string) => {
  * @param outputFolder 
  * @throws 
  */
-const inputFolderToOutputFolder = async (inputFolder: string, outputFolder: string) => {
+const inputFolderToOutputFolder = async (inputFolder: string, outputFolder: string, mappingTargets:MappingTarget[]) => {
 
   const errList:string[] = []
   const errFiles:string[] = []
@@ -131,7 +81,7 @@ const inputFolderToOutputFolder = async (inputFolder: string, outputFolder: stri
 
     if (fileStats.isFile() && fileName.toLowerCase().endsWith(".json")) {
       try {
-        await inputFileToFolder(filePath, outputFolder);
+        await inputFileToFolder(filePath, outputFolder, mappingTargets);
       } catch (err) {
         if (err instanceof UnexpectedInputException) {
           console.info(`Skipping ${filePath} due to a variable that wasn't expected to be undefined: ${err.message}`);
@@ -202,6 +152,12 @@ const validateFolderExistence = (folderPath: string): boolean => {
   }
 }
 
+function loadTargets(filePath: string): MappingTarget[] {
+  const absPath = path.resolve(filePath);
+  const fileContents = fs.readFileSync(absPath, "utf-8");
+  return JSON.parse(fileContents) as MappingTarget[];
+}
+
 
 function printCommandLineArguments(): void {
   console.log('Program parameters details:');
@@ -213,57 +169,133 @@ function printCommandLineArguments(): void {
   console.log(`npm run transform -- <input file path>`);
 }
 
+
+
 function processArguments(args: string[]): void {
-  if (args.length === 0) {
-    printCommandLineArguments()
-    return;
-  }
 
-  let folderPath: string | null = null;
-  let filePath: string | null = null;
-  let outputFolder: string | null = null;
+  const argsCommand = new Command();
 
-  if (args.length === 1) {
-    const arg = args[0];
-    if (validateFolderExistence(arg)) {
-      console.error('Error: a folder path was given as an input, but the output folder is missing (-o option followed by the output folder)');
-      return;
-    } else if (validateFileExistence(arg)) {
-      filePath = path.resolve(arg)
-      inputFileToStdout(filePath);
-    } else {
-      console.error(`Error: the path or folder given as an input does not exist: '${arg}'`);
-      return;
-    }
-  }
-  else if (args.length === 3) {
-    const arg1 = args[0];
-    const arg2 = args[1];
-    const arg3 = args[2];
+  argsCommand
+    .name("transform")
+    .description("Process input files or folders with a config file")
+    .argument("<config_file>", "Path to the config JSON file")
+    .argument("<input_path>", "Path to input file or folder")
+    .option("-o, --output_folder <path>", "Output folder (optional). If not given, output goes to STDOUT")
+    .allowExcessArguments(false)
+    .showHelpAfterError(`
+      Error: Invalid arguments provided.
 
-    if (arg2 === '-o') {
-      if (validateFolderExistence(arg1) && validateFolderExistence(arg3)) {
-        folderPath = path.resolve(arg1);
-        outputFolder = path.resolve(arg3);
-        inputFolderToOutputFolder(folderPath, outputFolder);
-      } else if (validateFileExistence(arg1) && validateFolderExistence(arg3)) {
-        filePath = path.resolve(arg1);
-        outputFolder = path.resolve(arg3);
-        inputFileToFolder(filePath, outputFolder);
-      } else {
-        console.error(`Error: Invalid or non existing input/output paths. Input: ${arg1}, Output: ${arg3}`);
-        return;
+      Expected usage examples:
+        1) Process all files in a folder (output folder required):
+          $ npm run transform -- <config_file> <input folder path> -o <output folder path>
+
+        2) Process a single file and write to output folder:
+          $ npm run transform -- <config_file> <input file path> -o <output folder path>
+
+        3) Process a single file and print to STDOUT:
+          $ npm run transform -- <config_file> <input file path>
+      `);
+
+  argsCommand.action((configFile, inputPath, options) => {
+
+    console.info(`Config path:${configFile}`)
+    console.info(`Input file:${inputPath}`)
+    console.info(`Optional:${options.output_folder}`)
+
+    let a = 1/0;
+
+    let targets:MappingTarget[];
+
+    if (validateFileExistence(configFile)){
+      targets = loadTargets(configFile);
+
+      //A sigle file as an input, STDOUT as an output
+      if (options.output_folder === undefined){
+        if (validateFileExistence(inputPath)){
+          inputFileToStdout(path.resolve(inputPath), targets);
+        }
+        else{
+          console.error(`Error: Invalid or non existing input path ${inputPath}`);
+        }
       }
-    } else {
-      console.error('Error: Invalid arguments');
-      printCommandLineArguments();
-      return;
+      //A single file or a folder as an input, a folder as an output
+      else{
+
+        if (validateFolderExistence(options.output_folder)){
+
+          if (validateFolderExistence(inputPath)){            
+            inputFolderToOutputFolder(path.resolve(inputPath), path.resolve(options.output_folder), targets);
+          }
+          else if (validateFileExistence(inputPath)){
+            inputFileToFolder(path.resolve(inputPath), path.resolve(options.output_folder), targets);
+          }
+          else{
+            console.error(`Error: Invalid or non existing input file/folder ${options.output_folder}`);
+          }
+
+        }
+        else{
+          console.error(`Error: Invalid or non existing output folder ${options.output_folder}`);
+        }
+      }
     }
-  } else {
-    console.error('Error: Invalid command');
-    printCommandLineArguments()
-    return;
-  }
+    });
+
+  argsCommand.parse();
+
+
+
+  // if (args.length <= 1) {
+  //   printCommandLineArguments()
+  //   return;
+  // }
+
+  // let folderPath: string | null = null;
+  // let filePath: string | null = null;
+  // let outputFolder: string | null = null;
+  // let targetConfigPath: string | null = null;
+
+  // if (args.length === 1) {
+  //   const arg = args[0];
+  //   if (validateFolderExistence(arg)) {
+  //     console.error('Error: a folder path was given as an input, but the output folder is missing (-o option followed by the output folder)');
+  //     return;
+  //   } else if (validateFileExistence(arg)) {
+  //     filePath = path.resolve(arg)
+  //     inputFileToStdout(filePath, targets);
+  //   } else {
+  //     console.error(`Error: the path or folder given as an input does not exist: '${arg}'`);
+  //     return;
+  //   }
+  // }
+  // else if (args.length === 3) {
+  //   const arg1 = args[0];
+  //   const arg2 = args[1];
+  //   const arg3 = args[2];
+
+  //   if (arg2 === '-o') {
+  //     if (validateFolderExistence(arg1) && validateFolderExistence(arg3)) {
+  //       folderPath = path.resolve(arg1);
+  //       outputFolder = path.resolve(arg3);
+  //       inputFolderToOutputFolder(folderPath, outputFolder, targets);
+  //     } else if (validateFileExistence(arg1) && validateFolderExistence(arg3)) {
+  //       filePath = path.resolve(arg1);
+  //       outputFolder = path.resolve(arg3);
+  //       inputFileToFolder(filePath, outputFolder, targets);
+  //     } else {
+  //       console.error(`Error: Invalid or non existing input/output paths. Input: ${arg1}, Output: ${arg3}`);
+  //       return;
+  //     }
+  //   } else {
+  //     console.error('Error: Invalid arguments');
+  //     printCommandLineArguments();
+  //     return;
+  //   }
+  // } else {
+  //   console.error('Error: Invalid command');
+  //   printCommandLineArguments()
+  //   return;
+  // }
 }
 
 // Get command line arguments
