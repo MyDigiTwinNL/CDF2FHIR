@@ -115,11 +115,6 @@ async function setup(targets: MappingTarget[]): Promise<jsonata.Expression[]> {
       expression.registerFunction(libfunc.name, libfunc);
     }
 
-    //register lifelines-specific functions
-    for (const libfunc of Object.values(lifelinesfunc)) {
-      expression.registerFunction(libfunc.name, libfunc);
-    }
-
     //register resource-specific functions, set the modulename as a prefix
     await import(target.module).then(
       (rfuncs) => registerModuleFunctions(rfuncs, expression)
