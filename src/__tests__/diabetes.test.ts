@@ -3,6 +3,11 @@ import {diabetes} from '../lifelines/Diabetes'
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
 
 test('diabetes clinical status, when reported positive in 1A, diabetes type 2', () => {
 

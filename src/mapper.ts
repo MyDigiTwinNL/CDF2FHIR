@@ -7,7 +7,7 @@ import * as funcatalog from './functionsCatalog';
 
 import * as lifelinesfunc from './lifelinesFunctions';
 
-import { MappingTarget } from './transformationConfig';
+import { MappingConfig, MappingTarget } from './transformationConfig';
 
 import { privateNameSpace } from './transformationParameters';
 
@@ -141,13 +141,13 @@ async function setup(targets: MappingTarget[]): Promise<jsonata.Expression[]> {
  * @param mappings configuration of templates and modules to be used in the transformation
  * @returns An array of JSON FHIR objects
  */
-export async function processInput(input: transformVariables, mappings: MappingTarget[]): Promise<object[]> {
+export async function processInput(input: transformVariables, mappingTargets: MappingTarget[]): Promise<object[]> {
 
   InputSingleton.getInstance().setInput(input);
 
   const resources: object[] = [];
 
-  const resourceExpressions = await setup(mappings)
+  const resourceExpressions = await setup(mappingTargets);
 
   await Promise.all(
     resourceExpressions.map(
@@ -236,8 +236,8 @@ function generateBundle(resources: any[]): object {
  * @param mappings 
  * @returns 
  */
-export const transform = function (input: any, mappings: MappingTarget[]): Promise<object> {
-  return processInput(input, mappings).then((output: object[]) => {
+export const transform = function (input: any, mappingTargets: MappingTarget[]): Promise<object> {
+  return processInput(input, mappingTargets).then((output: object[]) => {
     return generateBundle(output)
   }
   )

@@ -6,6 +6,11 @@ import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
 
 test('Cholesterol reports, above reference range', () => {
   

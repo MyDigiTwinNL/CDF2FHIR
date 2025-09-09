@@ -1,4 +1,5 @@
 import {inputValue} from './functionsCatalog';
+import {InputSingleton} from './inputSingleton'
 
 /**
  * The following general-purpose functions are not intended to be used directly, as
@@ -9,11 +10,6 @@ import {inputValue} from './functionsCatalog';
  * modules. 
  * 
  */
-
-
-export const resourceId = (resourceName:string):string => `${resourceName}-${inputValue('project_pseudo_id',"1a")}`
-
-export const waveSpecificResourceId = (resourceName:string,wave:string):string => `${resourceName}-${wave}-${inputValue('project_pseudo_id','1a')}`
 
 /**
  * 

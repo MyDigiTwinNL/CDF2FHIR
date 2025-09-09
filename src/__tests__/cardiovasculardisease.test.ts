@@ -3,6 +3,10 @@ import { cardioVascularDisease } from '../lifelines/CardioVascularDisease';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 
 test('CVD , when none of the related conditions (MI, HF, Stroke) are present', () => {

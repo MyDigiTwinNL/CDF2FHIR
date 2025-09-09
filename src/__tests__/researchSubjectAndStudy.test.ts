@@ -3,7 +3,10 @@ import {researchSubjectAndStudy} from '../lifelines/ResearchSubjectAndStudy'
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
-
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 test('Skipped one or more assessment, but participated in the last one', () => {
   

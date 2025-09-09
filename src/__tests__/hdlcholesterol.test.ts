@@ -7,6 +7,11 @@ import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
 
 test('HDL Cholesterol reports, below reference lower limit', () => {
   

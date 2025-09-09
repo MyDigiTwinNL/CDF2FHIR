@@ -5,6 +5,10 @@ import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 
 test('Creatinine conceptration for male participant, above limit', () => {

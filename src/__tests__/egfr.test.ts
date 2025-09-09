@@ -10,6 +10,12 @@ import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 //for 2009 CKD-EPI Creatinine (using as an input the creatinine converted from mmol/dl -Lifelines- to mg/dl)
 
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
+
 test('eGFRS for male, black participant', () => {
 
   const input = {

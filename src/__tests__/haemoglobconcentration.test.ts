@@ -7,6 +7,10 @@ import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 
 
+beforeEach(() => {
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
 
 test('Haemoglobine conceptration for male participant, above limit', () => {
 

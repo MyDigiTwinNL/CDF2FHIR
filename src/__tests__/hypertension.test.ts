@@ -5,6 +5,13 @@ import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
+
+
 test('hypertension reported on assessment 3A', () => {
 
   const input = {

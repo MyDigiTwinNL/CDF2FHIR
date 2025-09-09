@@ -18,15 +18,19 @@ const resolveLocalPath = () => {
   process.chdir(folderPath);
 }
 
-const inputFileToStdout = (inputFilePath: string, mappingTargets:MappingTarget[]) => {
+const inputFileToStdout = (inputFilePath: string, mappingConfig: MappingConfig) => {
   resolveLocalPath();
 
   /*Transformation performed with a mutex to prevent async race conditions due to the shared variable (InputSingletone)
     between the mapping modules and the JSONata templates. The mutex is released after the transformation is performed
     so the input cannot be changed in the process.*/
+
+  InputSingleton.getInstance().setUniqueIdentifierVariable(mappingConfig.participantUniqueIdentifier);
+  
   InputSingleton.getInstance().getMutex().acquire().then((releasemutex) => {
+
     const input = JSON.parse(fs.readFileSync(inputFilePath, 'utf8'));
-    transform(input, mappingTargets).then((output) => {
+    transform(input, mappingConfig.mappings).then((output) => {
       console.info(JSON.stringify(output));
       releasemutex();
     })
@@ -36,15 +40,17 @@ const inputFileToStdout = (inputFilePath: string, mappingTargets:MappingTarget[]
   
 }
 
-const inputFileToFolder = async (filePath: string, outputFolder: string, mappingTargets:MappingTarget[]) => {
+const inputFileToFolder = async (filePath: string, outputFolder: string, mappingConfig: MappingConfig) => {
   //To resolve all relative paths from the 'dist' folder.
   resolveLocalPath();
 
   await InputSingleton.getInstance().getMutex().acquire();
   
+  InputSingleton.getInstance().setUniqueIdentifierVariable(mappingConfig.participantUniqueIdentifier);
+
   try {
     const input = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    const output = await transform(input, mappingTargets);
+    const output = await transform(input, mappingConfig.mappings);
     const fileName = path.basename(filePath);
     const fileExtension = path.extname(filePath);
     const fileNameWithoutExtension = fileName.replace(fileExtension, '');
@@ -68,7 +74,7 @@ const inputFileToFolder = async (filePath: string, outputFolder: string, mapping
  * @param outputFolder 
  * @throws 
  */
-const inputFolderToOutputFolder = async (inputFolder: string, outputFolder: string, mappingTargets:MappingTarget[]) => {
+const inputFolderToOutputFolder = async (inputFolder: string, outputFolder: string, mappingConfig: MappingConfig) => {
 
   const errList:string[] = []
   const errFiles:string[] = []
@@ -82,7 +88,7 @@ const inputFolderToOutputFolder = async (inputFolder: string, outputFolder: stri
 
     if (fileStats.isFile() && fileName.toLowerCase().endsWith(".json")) {
       try {
-        await inputFileToFolder(filePath, outputFolder, mappingTargets);
+        await inputFileToFolder(filePath, outputFolder, mappingConfig);
       } catch (err) {
         if (err instanceof UnexpectedInputException) {
           console.info(`Skipping ${filePath} due to a variable that wasn't expected to be undefined: ${err.message}`);
@@ -181,15 +187,15 @@ function processArguments(): void {
 
   argsCommand.action((configFile, inputPath, options) => {
 
-    let targets:MappingTarget[];
+    let mappingConfig:MappingConfig;
 
     if (validateFileExistence(configFile)){
-      targets = loadConfig(configFile).mappings;
+      mappingConfig = loadConfig(configFile);
       
       //A sigle file as an input, STDOUT as an output
       if (options.output_folder === undefined){
         if (validateFileExistence(inputPath)){
-          inputFileToStdout(path.resolve(inputPath), targets);
+          inputFileToStdout(path.resolve(inputPath), mappingConfig);
         }
         else{
           console.error(`Error: Invalid or non existing input path ${inputPath}`);
@@ -200,10 +206,10 @@ function processArguments(): void {
 
         if (validateFolderExistence(options.output_folder)){
           if (validateFolderExistence(inputPath)){            
-            inputFolderToOutputFolder(path.resolve(inputPath), path.resolve(options.output_folder), targets);
+            inputFolderToOutputFolder(path.resolve(inputPath), path.resolve(options.output_folder), mappingConfig);
           }
           else if (validateFileExistence(inputPath)){
-            inputFileToFolder(path.resolve(inputPath), path.resolve(options.output_folder), targets);
+            inputFileToFolder(path.resolve(inputPath), path.resolve(options.output_folder), mappingConfig);
           }
           else{
             console.error(`Error: Invalid or non existing input file/folder ${options.output_folder}`);

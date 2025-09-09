@@ -4,6 +4,12 @@ import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 import {getSNOMEDCode} from '../codes/codesCollection'
 
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
 test('heartattack, when reported positive in 1A', () => {
 
   const input = {

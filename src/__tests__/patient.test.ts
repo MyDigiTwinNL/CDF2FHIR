@@ -5,8 +5,13 @@ import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 test('Male patient', () => {
+
   
   const input = {
     "age": {"1a":"22"},
@@ -15,6 +20,7 @@ test('Male patient', () => {
     "date_of_death": {"global":"2010-2"}
   }  
 
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
   InputSingleton.getInstance().setInput(input);
   expect(patientmf.birthDate()).toBe("1970");
   expect(patientmf.gender()).toBe(genderFHIRV3Codes.male)
