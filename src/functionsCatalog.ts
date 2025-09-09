@@ -81,41 +81,6 @@ export const inputValues = (varname:string): variableAssessments => {
 }
 
 
-
-/**
- * Returns the map with all the assessments of a given variable.
- * Access to properties not defined in a given variable will raise an error 
- * (a Proxy with this behavior is returned)
- * @param name 
- * @param expectedAssessments assessment expected to be read from the datafile (including potentially missing ones)
- * @returns 
- */
-/*export const inputValues = (name:string,expectedAssessments:string[]): variableAssessments => {    
-
-    //returns a Map. @TODO change getInput type from any to Map
-    const assessmentValues:variableAssessments = InputSingleton.getInstance().getInput()[name];
-
-    if (assessmentValues===undefined) throw Error(`Variable ${name} not provided in the input`)    
-
-    if (expectedAssessments.length !== Object.keys(assessmentValues).length){
-      throw Error(`Expected assessments for variable ${name} (${expectedAssessments}) do not match the ones in the input file (${assessmentValues})`) 
-    }
-    else{
-      //Check that all the expected assessments (including potentially missing ones) were provided
-      for (const expectedAssessment in expectedAssessments){
-        if (!(expectedAssessment in assessmentValues)){
-          throw Error(`Expected assessments for variable ${name} (${expectedAssessments}) do not match the ones in the input file (${assessmentValues}). Missing:${expectedAssessment}`) 
-        }
-      }
-
-      return assessmentValues;
-    }
-  }*/
-
-
-
-
-
 /**
  * Function for echoing strings within a JSONata expression (for debugging purposes)
  * @param text 
