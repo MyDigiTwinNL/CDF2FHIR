@@ -7,13 +7,15 @@ import * as funcatalog from './functionsCatalog';
 
 import * as lifelinesfunc from './lifelinesFunctions';
 
+import { MappingTarget } from './transformationConfig';
+
 import { privateNameSpace } from './transformationParameters';
 
 import { InputSingleton } from './inputSingleton';
 
-import {transformVariables} from './functionsCatalog'
+import { transformVariables } from './functionsCatalog'
 
-import {UnexpectedInputException} from './unexpectedInputException'
+import { UnexpectedInputException } from './unexpectedInputException'
 
 
 const INTERNAL_RESOURCE_PREFIX = "[PACKAGE]";
@@ -26,9 +28,9 @@ const INTERNAL_RESOURCE_PREFIX = "[PACKAGE]";
 function getFunctionProperties(object: any): Function[] {
   const functionProperties: Function[] = []
   Object.getOwnPropertyNames(object).forEach(name => {
-      if (typeof object[name] === 'function') {
-          functionProperties.push(object[name])            
-      }
+    if (typeof object[name] === 'function') {
+      functionProperties.push(object[name])
+    }
   });
   return functionProperties;
 }
@@ -45,29 +47,29 @@ function getFunctionProperties(object: any): Function[] {
  * @param expression jsonata expression where functions will be regitered
  */
 function registerModuleFunctions(moduleObject: object, expression: jsonata.Expression) {
-  
+
   for (const rfunc of Object.values(moduleObject)) {
 
     //The function is a root element of the module
-    if ((typeof rfunc)==='function'){
+    if ((typeof rfunc) === 'function') {
       //console.info(`Registering regular function ${(rfunc as Function).name} for ${prefix}`)
-      expression.registerFunction(`${rfunc.name}`, rfunc);      
+      expression.registerFunction(`${rfunc.name}`, rfunc);
     }
     //The function is defined within a module's object (this is used when the module 
     //implementation is based on an interface.    
-    else if ((typeof rfunc)==='object'){
+    else if ((typeof rfunc) === 'object') {
       //console.info(`Registering functions from exported JS object ${rfunc}`)
       const funcs = getFunctionProperties(rfunc);
-      funcs.forEach((f)=>{
+      funcs.forEach((f) => {
         const plainF = f as () => void;
         //console.info(`...... Function ${plainF.name} for ${prefix}`)        
-        expression.registerFunction(`${plainF.name}`, plainF);      
-        
+        expression.registerFunction(`${plainF.name}`, plainF);
+
       })
     }
   }
 }
-  
+
 
 
 /**
@@ -82,13 +84,13 @@ function registerModuleFunctions(moduleObject: object, expression: jsonata.Expre
  *          otherwise returns the original input string.
  */
 function resolveTemplatePathLocation(input: string): string {
-    const prefix = INTERNAL_RESOURCE_PREFIX;
-    if (input.startsWith(prefix)) {
-        // Remove the prefix and join with __dirname
-        input = input.replace(prefix, __dirname);
-        input = path.resolve(input);
-    }
-    return input;
+  const prefix = INTERNAL_RESOURCE_PREFIX;
+  if (input.startsWith(prefix)) {
+    // Remove the prefix and join with __dirname
+    input = input.replace(prefix, __dirname);
+    input = path.resolve(input);
+  }
+  return input;
 }
 
 
@@ -119,9 +121,9 @@ async function setup(targets: MappingTarget[]): Promise<jsonata.Expression[]> {
     }
 
     //register resource-specific functions, set the modulename as a prefix
-    await import(target.module).then(      
+    await import(target.module).then(
       (rfuncs) => registerModuleFunctions(rfuncs, expression)
-    ).then(() => {      
+    ).then(() => {
       resourceExpressions.push(expression);
     })
   }
@@ -139,7 +141,7 @@ async function setup(targets: MappingTarget[]): Promise<jsonata.Expression[]> {
  * @param mappings configuration of templates and modules to be used in the transformation
  * @returns An array of JSON FHIR objects
  */
-export async function processInput(input: transformVariables, mappings:MappingTarget[]): Promise<object[]> {
+export async function processInput(input: transformVariables, mappings: MappingTarget[]): Promise<object[]> {
 
   InputSingleton.getInstance().setInput(input);
 
@@ -149,11 +151,11 @@ export async function processInput(input: transformVariables, mappings:MappingTa
 
   await Promise.all(
     resourceExpressions.map(
-      async (expression) => {        
-        try {          
-          const output = await expression.evaluate(input)          
+      async (expression) => {
+        try {
+          const output = await expression.evaluate(input)
           //the output can be an array of resources (e.g., lab results involve multiple linked resources)
-          if (Array.isArray(output)) {            
+          if (Array.isArray(output)) {
             output.forEach((resource) => {
               //Some of the resources within the array may be empty (when no created due to missing information)
               if (Object.keys(resource).length > 0) resources.push(resource)
@@ -174,15 +176,15 @@ export async function processInput(input: transformVariables, mappings:MappingTa
             
           }*/
         }
-        catch (error) {          
-          if (error instanceof UnexpectedInputException){            
-            throw error;            
+        catch (error) {
+          if (error instanceof UnexpectedInputException) {
+            throw error;
           }
-          else{
-            throw new Error(`Error while transforming a JSonata expression `, { cause: error })  
+          else {
+            throw new Error(`Error while transforming a JSonata expression `, { cause: error })
             //throw new Error(`Error while transforming a JSonata expression [${JSON.stringify(expression.ast())}]`, { cause: error })  
-          }                    
-          
+          }
+
         }
 
       }
@@ -213,7 +215,7 @@ function generateBundle(resources: any[]): object {
     if ('id' in resource) {
       //Using a fixed namespace to ensure the UUIDs are always the same given the resource id.
       const resourceUUID = uuidv5(resource.id, privateNameSpace);
-      const bundleEntry = { "fullUrl": `urn:uuid:${resourceUUID}`, "request":{"method": "POST", "url":"http://localhost:8080/fhir"},"resource": resource };
+      const bundleEntry = { "fullUrl": `urn:uuid:${resourceUUID}`, "request": { "method": "POST", "url": "http://localhost:8080/fhir" }, "resource": resource };
       resourcesBundle.entry.push(bundleEntry);
     }
     else {
@@ -227,11 +229,6 @@ function generateBundle(resources: any[]): object {
 }
 
 
-export type MappingTarget = {
-  template: string;
-  module: string;
-}
-
 /**
  * Perform a transformation of all the data given as 'input', based on the configurations
  * of templates and modules of the 'mappings' parameter, into a JSON FHIR bundle
@@ -239,8 +236,8 @@ export type MappingTarget = {
  * @param mappings 
  * @returns 
  */
-export const transform = function (input: any,mappings:MappingTarget[]): Promise<object> {
-  return processInput(input,mappings).then((output: object[]) => {
+export const transform = function (input: any, mappings: MappingTarget[]): Promise<object> {
+  return processInput(input, mappings).then((output: object[]) => {
     return generateBundle(output)
   }
   )

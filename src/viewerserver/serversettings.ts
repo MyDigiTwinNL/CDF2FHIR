@@ -1,4 +1,5 @@
-import {MappingTarget} from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
 
 export const targets:MappingTarget[] = [
     //{ "template": '../../zib-2017-mappings/Diabetes.jsonata', "module": './lifelines/Diabetes'},

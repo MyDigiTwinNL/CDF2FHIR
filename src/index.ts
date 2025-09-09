@@ -10,7 +10,9 @@ export {ResearchSubjectAndStudy} from "./fhir-resource-interfaces/researchSubjec
 
 export {InputSingleton} from "./inputSingleton"
 
-export { MappingTarget, processInput } from "./mapper"
+export { processInput } from "./mapper"
+
+export { MappingConfig} from "./transformationConfig"
 
 export {UnexpectedInputException, failIsDefined, assertIsDefined} from "./unexpectedInputException"
 

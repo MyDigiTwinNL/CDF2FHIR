@@ -2,7 +2,8 @@
 
 import fs from 'fs';
 import * as path from 'path';
-import { MappingTarget, transform } from './mapper'
+import { loadConfig, MappingConfig, MappingTarget } from './transformationConfig';
+import { transform } from './mapper'
 import {InputSingleton} from './inputSingleton'
 import { UnexpectedInputException } from './unexpectedInputException';
 import { Command } from "commander";
@@ -152,12 +153,6 @@ const validateFolderExistence = (folderPath: string): boolean => {
   }
 }
 
-function loadTargets(filePath: string): MappingTarget[] {
-  const absPath = path.resolve(filePath);
-  const fileContents = fs.readFileSync(absPath, "utf-8");
-  return JSON.parse(fileContents) as MappingTarget[];
-}
-
 
 function processArguments(): void {
 
@@ -189,8 +184,8 @@ function processArguments(): void {
     let targets:MappingTarget[];
 
     if (validateFileExistence(configFile)){
-      targets = loadTargets(configFile);
-
+      targets = loadConfig(configFile).mappings;
+      
       //A sigle file as an input, STDOUT as an output
       if (options.output_folder === undefined){
         if (validateFileExistence(inputPath)){
