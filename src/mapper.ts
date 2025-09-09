@@ -1,6 +1,7 @@
 import fs from 'fs';
 import jsonata from 'jsonata';
 import { v5 as uuidv5 } from 'uuid';
+import path from "path"
 
 import * as funcatalog from './functionsCatalog';
 
@@ -14,6 +15,8 @@ import {transformVariables} from './functionsCatalog'
 
 import {UnexpectedInputException} from './unexpectedInputException'
 
+
+const INTERNAL_RESOURCE_PREFIX = "[PACKAGE]";
 
 /**
  * Get the functions associated to a given object
@@ -66,6 +69,29 @@ function registerModuleFunctions(moduleObject: object, expression: jsonata.Expre
 }
   
 
+
+/**
+ * Resolves the absolute path for a given template input string.
+ *
+ * If the input string starts with the `INTERNAL_RESOURCE_PREFIX`, the prefix is replaced
+ * with the current directory (`__dirname`), and the resulting path is resolved to an absolute path.
+ * Otherwise, the input string is returned unchanged.
+ *
+ * @param input - The template path string to resolve.
+ * @returns The resolved absolute path if the input starts with the internal resource prefix,
+ *          otherwise returns the original input string.
+ */
+function resolveTemplatePathLocation(input: string): string {
+    const prefix = INTERNAL_RESOURCE_PREFIX;
+    if (input.startsWith(prefix)) {
+        // Remove the prefix and join with __dirname
+        input = input.replace(prefix, __dirname);
+        input = path.resolve(input);
+    }
+    return input;
+}
+
+
 /**
  * Setting up a collection of JSOnata expressions based on the given MappingTargets (templates and related modules)
  * @param targets mapping targets
@@ -77,7 +103,10 @@ async function setup(targets: MappingTarget[]): Promise<jsonata.Expression[]> {
 
   //an expression evaluator for each type of resource (so memoization is used across multiple inputs)
   for (const target of targets) {
-    const expression = jsonata(fs.readFileSync(target.template, 'utf8'));
+
+    let templatePath = resolveTemplatePathLocation(target.template);
+
+    const expression = jsonata(fs.readFileSync(templatePath, 'utf8'));
 
     //Register general-purpose functions
     for (const libfunc of Object.values(funcatalog)) {
@@ -196,6 +225,7 @@ function generateBundle(resources: any[]): object {
   return resourcesBundle;
 
 }
+
 
 export type MappingTarget = {
   template: string;
