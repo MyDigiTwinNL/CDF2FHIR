@@ -1,4 +1,11 @@
 {
+
+  "name": "@hcadavid/cdf2fhir",
+  "version": "0.0.11",
+  "license": "Apache-2.0",
+  "description": "Tool for transformings cohort-study data into FHIR-resources given a series of pairing rules.",
+  "main": "dist/index.js", 
+  "types" :  "dist/index.d.ts", 
   "dependencies": {
     "async-mutex": "^0.4.0",
     "commander": "^11.1.0",
@@ -25,10 +32,16 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
+    "build": "tsc",
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "validatesamples": "ts-node fhirvalidation/validatesamples.js",
-    "transform": "ts-node dist/transform",
+    "cdf2fhir": "ts-node src/transform.ts",
     "dev-viewer": "node_modules/nodemon/bin/nodemon.js dist/viewerserver/server"
+  },
+  "bin": {
+    "cdf2fhir": "dist/transform.js"
   }
+  
+
 }

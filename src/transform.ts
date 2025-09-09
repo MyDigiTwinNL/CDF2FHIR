@@ -1,11 +1,11 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
-import * as afs from 'fs/promises'
 import * as path from 'path';
 import { MappingTarget, transform } from './mapper'
 import {InputSingleton} from './inputSingleton'
 import { UnexpectedInputException } from './unexpectedInputException';
 import { Command } from "commander";
-import { type } from 'os';
 
 
 
@@ -159,24 +159,12 @@ function loadTargets(filePath: string): MappingTarget[] {
 }
 
 
-function printCommandLineArguments(): void {
-  console.log('Program parameters details:');
-  console.log('Process all the files in a folder (output folder is mandatory):');
-  console.log(`npm run transform -- <input folder path> -o <output folder path>`);
-  console.log('Process a single file and generate a file with the output in a given folder:');
-  console.log(`npm run transform -- <input file path> -o <output folder path>`);
-  console.log('Process a single file and print the output on STDOUT:');
-  console.log(`npm run transform -- <input file path>`);
-}
-
-
-
-function processArguments(args: string[]): void {
+function processArguments(): void {
 
   const argsCommand = new Command();
 
   argsCommand
-    .name("transform")
+    .name("cdf2fhir")
     .description("Process input files or folders with a config file")
     .argument("<config_file>", "Path to the config JSON file")
     .argument("<input_path>", "Path to input file or folder")
@@ -187,22 +175,16 @@ function processArguments(args: string[]): void {
 
       Expected usage examples:
         1) Process all files in a folder (output folder required):
-          $ npm run transform -- <config_file> <input folder path> -o <output folder path>
+          $ cdf2fhir <config_file> <input folder path> -o <output folder path>
 
         2) Process a single file and write to output folder:
-          $ npm run transform -- <config_file> <input file path> -o <output folder path>
+          $ cdf2fhir <config_file> <input file path> -o <output folder path>
 
         3) Process a single file and print to STDOUT:
-          $ npm run transform -- <config_file> <input file path>
+          $ cdf2fhir <config_file> <input file path>
       `);
 
   argsCommand.action((configFile, inputPath, options) => {
-
-    console.info(`Config path:${configFile}`)
-    console.info(`Input file:${inputPath}`)
-    console.info(`Optional:${options.output_folder}`)
-
-    let a = 1/0;
 
     let targets:MappingTarget[];
 
@@ -222,7 +204,6 @@ function processArguments(args: string[]): void {
       else{
 
         if (validateFolderExistence(options.output_folder)){
-
           if (validateFolderExistence(inputPath)){            
             inputFolderToOutputFolder(path.resolve(inputPath), path.resolve(options.output_folder), targets);
           }
@@ -235,72 +216,21 @@ function processArguments(args: string[]): void {
 
         }
         else{
+          console.info("b")
           console.error(`Error: Invalid or non existing output folder ${options.output_folder}`);
         }
       }
+    }
+    else{
+      console.error(`Error: Invalid or non existing transformation configuration file ${configFile}`);
     }
     });
 
   argsCommand.parse();
 
-
-
-  // if (args.length <= 1) {
-  //   printCommandLineArguments()
-  //   return;
-  // }
-
-  // let folderPath: string | null = null;
-  // let filePath: string | null = null;
-  // let outputFolder: string | null = null;
-  // let targetConfigPath: string | null = null;
-
-  // if (args.length === 1) {
-  //   const arg = args[0];
-  //   if (validateFolderExistence(arg)) {
-  //     console.error('Error: a folder path was given as an input, but the output folder is missing (-o option followed by the output folder)');
-  //     return;
-  //   } else if (validateFileExistence(arg)) {
-  //     filePath = path.resolve(arg)
-  //     inputFileToStdout(filePath, targets);
-  //   } else {
-  //     console.error(`Error: the path or folder given as an input does not exist: '${arg}'`);
-  //     return;
-  //   }
-  // }
-  // else if (args.length === 3) {
-  //   const arg1 = args[0];
-  //   const arg2 = args[1];
-  //   const arg3 = args[2];
-
-  //   if (arg2 === '-o') {
-  //     if (validateFolderExistence(arg1) && validateFolderExistence(arg3)) {
-  //       folderPath = path.resolve(arg1);
-  //       outputFolder = path.resolve(arg3);
-  //       inputFolderToOutputFolder(folderPath, outputFolder, targets);
-  //     } else if (validateFileExistence(arg1) && validateFolderExistence(arg3)) {
-  //       filePath = path.resolve(arg1);
-  //       outputFolder = path.resolve(arg3);
-  //       inputFileToFolder(filePath, outputFolder, targets);
-  //     } else {
-  //       console.error(`Error: Invalid or non existing input/output paths. Input: ${arg1}, Output: ${arg3}`);
-  //       return;
-  //     }
-  //   } else {
-  //     console.error('Error: Invalid arguments');
-  //     printCommandLineArguments();
-  //     return;
-  //   }
-  // } else {
-  //   console.error('Error: Invalid command');
-  //   printCommandLineArguments()
-  //   return;
-  // }
 }
 
-// Get command line arguments
-const args: string[] = process.argv.slice(2);
-processArguments(args);
+processArguments();
 
 
 

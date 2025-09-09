@@ -15,17 +15,6 @@ export const resourceId = (resourceName:string):string => `${resourceName}-${inp
 
 export const waveSpecificResourceId = (resourceName:string,wave:string):string => `${resourceName}-${wave}-${inputValue('project_pseudo_id','1a')}`
 
-export const echo = (text:string):void => (console.info(text))
-
-/**
- * 
- * It is assumed (from Lifelines data analysis) that when 'date' is missing in an assessment, the
- * participant dropped the study or missed the assessment.
- * @param wave 
- * @returns true if the assessment was missed, for the
- */
-export const assesmentMissed = (wave:string) => inputValue("date",wave)==undefined
-
 /**
  * 
  * @precondition date in the given wave is never undefined
@@ -42,6 +31,20 @@ export const collectedDateTime=function(wave:string):string|undefined{
     }    
     
 };
+
+
+
+export const echo = (text:string):void => (console.info(text))
+
+/**
+ * 
+ * It is assumed (from Lifelines data analysis) that when 'date' is missing in an assessment, the
+ * participant dropped the study or missed the assessment.
+ * @param wave 
+ * @returns true if the assessment was missed, for the
+ */
+export const assesmentMissed = (wave:string) => inputValue("date",wave)==undefined
+
 
 
 
