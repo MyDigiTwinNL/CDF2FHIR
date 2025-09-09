@@ -1,6 +1,8 @@
 import { InputSingleton } from '../inputSingleton';
 import {diabetes} from '../lifelines/Diabetes'
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
 
 test('diabetes clinical status, when reported positive in 1A, diabetes type 2', () => {
 

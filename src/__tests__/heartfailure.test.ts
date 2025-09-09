@@ -1,6 +1,7 @@
 import { InputSingleton } from '../inputSingleton';
 import { heartFailure } from '../lifelines/HeartFailure'; 
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import {getSNOMEDCode} from '../codes/codesCollection'
 
 

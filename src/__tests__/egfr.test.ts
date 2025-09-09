@@ -1,7 +1,8 @@
 import { InputSingleton } from '../inputSingleton';
 import {eGFRS} from '../lifelines/eGFR'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 

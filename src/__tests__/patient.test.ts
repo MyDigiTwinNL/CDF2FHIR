@@ -1,7 +1,9 @@
 import { InputSingleton } from '../inputSingleton';
 import * as patientmf from '../lifelines/Patient'
 import {genderFHIRV3Codes} from '../codes/fhirv3codes'
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
 
 
 test('Male patient', () => {

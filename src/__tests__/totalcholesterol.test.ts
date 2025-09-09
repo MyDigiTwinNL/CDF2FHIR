@@ -2,7 +2,9 @@ import { InputSingleton } from '../inputSingleton';
 import * as totalCholesterolFunctions from '../lifelines/TotalCholesterol'
 import {TotalCholesterolReadingEntry} from '../lifelines/TotalCholesterol'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
 
 
 test('Cholesterol reports, above reference range', () => {

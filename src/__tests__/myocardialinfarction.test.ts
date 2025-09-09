@@ -1,6 +1,7 @@
 import { InputSingleton } from '../inputSingleton';
 import { myocardialInfarction } from '../lifelines/MyocardialInfarction'; 
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import {getSNOMEDCode} from '../codes/codesCollection'
 
 test('heartattack, when reported positive in 1A', () => {

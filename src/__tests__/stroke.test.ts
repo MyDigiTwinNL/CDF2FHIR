@@ -1,6 +1,7 @@
 import { InputSingleton } from '../inputSingleton';
 import * as strokemf from '../lifelines/Stroke'
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import {getSNOMEDCode} from '../codes/codesCollection'
 
 test('stroke, when reported positive in 1A', () => {

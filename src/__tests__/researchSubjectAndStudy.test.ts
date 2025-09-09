@@ -1,6 +1,8 @@
 import { InputSingleton } from '../inputSingleton';
 import {researchSubjectAndStudy} from '../lifelines/ResearchSubjectAndStudy'
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
 
 
 test('Skipped one or more assessment, but participated in the last one', () => {

@@ -1,7 +1,9 @@
 import { InputSingleton } from '../inputSingleton';
 import { cardioVascularDisease } from '../lifelines/CardioVascularDisease'; 
-import { MappingTarget, processInput } from '../mapper'
-import {getSNOMEDCode} from '../codes/codesCollection'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
+
 
 test('CVD , when none of the related conditions (MI, HF, Stroke) are present', () => {
 

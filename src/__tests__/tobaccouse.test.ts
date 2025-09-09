@@ -2,7 +2,9 @@ import { InputSingleton } from '../inputSingleton';
 import { TobaccoUseProperties } from '../lifelines/TobaccoUse'
 import * as tobbacousemf from '../lifelines/TobaccoUse'
 import { tobaccoUseStatusSNOMEDCodelist } from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
 
 
 test('non-smoker', () => {

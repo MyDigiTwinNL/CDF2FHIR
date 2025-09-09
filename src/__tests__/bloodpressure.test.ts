@@ -1,7 +1,5 @@
-import { InputSingleton } from '../inputSingleton';
-import * as bloodpressuremf from '../lifelines/BloodPressure'
-import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 
 
 
