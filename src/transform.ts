@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import * as path from 'path';
-import { loadConfig, MappingConfig, MappingTarget } from './transformationConfig';
+import { loadConfig, MappingConfig } from './transformationConfig';
 import { transform } from './mapper'
 import {InputSingleton} from './inputSingleton'
 import { UnexpectedInputException } from './unexpectedInputException';

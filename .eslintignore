@@ -1,2 +1,4 @@
 node_modules
 dist
+__testmappings__
+__tests__

@@ -34,7 +34,7 @@ export const idToUUID = (id: string) => `urn:uuid:${uuidv5(id, parameters.privat
  * @param value 
  * @returns 
  */
-export const isDefined = (value: any) => {
+export const isDefined = (value: unknown) => {
   return value !== undefined
 };
 
@@ -57,7 +57,7 @@ export const inputValue = (varname: string, wave: string): string | undefined =>
 
 export function participantUniqueId(): string | undefined {
   
-  let uniqueIdentifier = InputSingleton.getInstance().getUniqueIdentifier();
+  const uniqueIdentifier = InputSingleton.getInstance().getUniqueIdentifier();
   if (uniqueIdentifier === undefined){
     throw new Error(`The variable name where the unique identifiers of the patient will be obtained from has not been defined yet.`);    
   }

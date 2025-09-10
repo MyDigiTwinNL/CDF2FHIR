@@ -5,7 +5,7 @@ import path from "path"
 
 import * as funcatalog from './functionsCatalog';
 
-import { MappingConfig, MappingTarget } from './transformationConfig';
+import { MappingTarget } from './transformationConfig';
 
 import { privateNameSpace } from './transformationParameters';
 
@@ -23,6 +23,8 @@ const INTERNAL_RESOURCE_PREFIX = "[PACKAGE]";
  * @param object 
  * @returns 
  */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
 function getFunctionProperties(object: any): Function[] {
   const functionProperties: Function[] = []
   Object.getOwnPropertyNames(object).forEach(name => {
@@ -104,7 +106,7 @@ async function setup(targets: MappingTarget[]): Promise<jsonata.Expression[]> {
   //an expression evaluator for each type of resource (so memoization is used across multiple inputs)
   for (const target of targets) {
 
-    let templatePath = resolveTemplatePathLocation(target.template);
+    const templatePath = resolveTemplatePathLocation(target.template);
 
     const expression = jsonata(fs.readFileSync(templatePath, 'utf8'));
 
