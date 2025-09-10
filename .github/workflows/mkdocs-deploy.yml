@@ -3,7 +3,8 @@ on:
   push:
     branches:
       - main
-      - wip/documentation
+    paths:
+      - 'docs/**'   # Only trigger if something inside ./docs changes
 
 jobs:
   deploy:
