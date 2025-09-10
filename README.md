@@ -1,6 +1,6 @@
-# FHIR Cohort Data Transformer
+# CDF2FHIR - Cohort-study to FHIR Data Transformation
 
-The FHIR Cohort Data Transformer is a TypeScript tool designed to transform cohort-study data into FHIR-compliant data. This tool allows you to specify and test the pairing rules between the cohort-study data and the properties of a given FHIR resource. Once you have defined these rules, you can link them to one or more FHIR-compliant templates.
+CDF2FHIR is a TypeScript tool designed to transform cohort-study data into FHIR-compliant data. This tool allows you to specify and test the pairing rules between the cohort-study data and the properties of a given FHIR resource. Once you have defined these rules, you can link them to one or more FHIR-compliant templates. This requires the cohort study data to be previously transformed into the CDF format.
 
 ## Features
 
@@ -8,85 +8,33 @@ The FHIR Cohort Data Transformer is a TypeScript tool designed to transform coho
 - Allows the definition of pairing rules between cohort-study data and FHIR resource properties
 - Paring rules are specified in independent modules to make them testeable
 
-## Prerequisites
+## Data-harmonization process at-a-glance
 
-To use this tool, ensure you have the following installed:
+0. The input data is pre-processed so it follows the (participant-centered) CDF format. 
+1. A new TypeScript project is created, importing the [NPM mydigitwin-cdf2fhir module](https://www.npmjs.com/package/mydigtwin-cdf2fhir).
+2. For each resource you want to include on the target FHIR bundle, a module with the corresponding pairing rules is implemented, following a TDD approach. Depending on the resource, this can by done by implementing one of the existing TypeScript interfaces (e.g., Condition, LaboratoryTestResult, Research Subject).
+3. You define, in a configuration file, which 'mapping' modules will be used on which FHIR templates. For the modules developed using the provided interfaces, there are already FHIR templates for it.
+4. You can launch the transformation process through the CLI using the `cdf2fhir` command installed with the NPM package.
 
-- Node.js (version 12 or higher)
-- npm (Node Package Manager)
-- TypeScript (installed globally)
+This package includes interfaces and templates to generate resources compliant with the Dutch FHIR-ZIB ([zib-2017](https://zibs.nl/wiki/ZIB_Publicatie_2017(NL))) profile. Adding support to other profiles, or to resources not yet supported, requires the development of the corresponding templates using the [JSONata transformation language](https://jsonata.org/). How to do this, and the tools that support the process, are further descibed in the [developers documentation](https://mydigitwinnl.github.io/CDF2Medmij-Mapping-tool/*)
+
 
 ## Installation
 
-1. Clone the repository from GitHub:
-
-```bash
-git clone https://github.com/your-username/fhir-cohort-data-transformer.git
 ```
-
-2. Navigate to the project directory:
-
-```bash
-cd fhir-cohort-data-transformer
+npm install mydigitwin-cdf2fhir
 ```
-
-3. Install the dependencies:
-
-```bash
-npm install
-```
-
-4. Compile
-
-```bash
-tsc
-```
-
 
 ## Usage
 
-1. To create new pairing rules or JSON output-templates, refer to the developer manual. 
-
-* To run the unit tests :
-
-  ```bash
-  npm test
-  ```
-
-* To run the linter :
-
-  ```bash
-  npm run lint
-  ```
-* To transform the available input samples (./fhirvalidation/sampleinputs), and check the validity of their corresponding transformations against a FHIR profile:
-
-  ```bash  
-  npm run validatesamples
-  ```
-
-2. To preview a transformation of a given input
-
-   * Start the viewer server
-   ````
-   npm run dev-viewer
-   ````
-   * Open editor at [http://localhost:3000](http://localhost:3000)
-
-  
-3. Tp generate FHIR-compliant data based on the rules already defined, and the mapping configuration:
-
 ```bash
 #Transform a single file, print the ouput to STDOUT
-npm run transform -- ./fhirvalidation/sampleinputs/input-p1234.json
+npx mydigitwin-cdf2fhir <config_file> ./fhirvalidation/sampleinputs/input-p1234.json
 #Transform a single file, save the output on the given folder
-npm run transform -- ./fhirvalidation/sampleinputs/input-p1234.json -o /tmp/out
+npx mydigitwin-cdf2fhir <config_file> ./fhirvalidation/sampleinputs/input-p1234.json -o /tmp/out
 #Transform all the .json files in a given folder, save the output on the given folder
-npm run transform -- ./fhirvalidation/sampleinputs -o /tmp/out
+npx mydigitwin-cdf2fhir <config_file> ./fhirvalidation/sampleinputs -o /tmp/out
 ```
-
-## End-user and Developer documentation
-
-The developer documentation with the description of the tool design, and further details for creating new templates/pairing rules [can be found here](https://mydigitwinnl.github.io/CDF2Medmij-Mapping-tool/) (still under development).
 
 
 
