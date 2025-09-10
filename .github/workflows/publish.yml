@@ -6,10 +6,11 @@ on:
       - main
     tags:
       - 'v*'
-      
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') # only run on tag pushes
 
     steps:
       - name: Checkout repository
