@@ -12,7 +12,7 @@ export {InputSingleton} from "./inputSingleton"
 
 export { processInput } from "./mapper"
 
-export { MappingConfig} from "./transformationConfig"
+export { MappingConfig, MappingTarget, ParticipantUniqueIdentifier} from "./transformationConfig"
 
 export {UnexpectedInputException, failIsDefined, assertIsDefined} from "./unexpectedInputException"
 
