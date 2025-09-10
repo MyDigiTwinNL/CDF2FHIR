@@ -32,8 +32,8 @@ jobs:
         run: mkdir -p ~/.fhir
       
       - name: Download the cache content of the FHIR Validator
-        run: wget https://figshare.com/ndownloader/files/49362157?private_link=93fbd16af86c3f01a68a -O fhirvalidatorcache.zip
-      
+        run: curl -L "https://figshare.com/ndownloader/files/49362157?private_link=93fbd16af86c3f01a68a" -o fhirvalidatorcache.zip
+
       - name: Decompress FHIR Validator Cache
         run: unzip fhirvalidatorcache.zip -d ~/.fhir
       
