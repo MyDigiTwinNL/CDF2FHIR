@@ -1,6 +1,6 @@
 {
 
-  "name": "mydigitwin-cdf2fhir",
+  "name": "mdt-cdf2fhir",
   "version": "0.9.0",
   "license": "Apache-2.0",
   "description": "Tool for transformings cohort-study data into FHIR-resources given a series of pairing rules.",
