@@ -11,7 +11,7 @@ CDF2FHIR is a TypeScript tool designed to transform cohort-study data into FHIR-
 ## Data-harmonization process at-a-glance
 
 0. The input data is pre-processed so it follows the (participant-centered) CDF format. 
-1. A new TypeScript project is created, importing the [NPM mydigitwin-cdf2fhir module](https://www.npmjs.com/package/mydigtwin-cdf2fhir).
+1. A new TypeScript project is created, importing the [NPM mydigitwin-cdf2fhir module](https://www.npmjs.com/package/mdt-cdf2fhir?activeTab=versions).
 2. For each resource you want to include on the target FHIR bundle, a module with the corresponding pairing rules is implemented, following a TDD approach. Depending on the resource, this can by done by implementing one of the existing TypeScript interfaces (e.g., Condition, LaboratoryTestResult, Research Subject).
 3. You define, in a configuration file, which 'mapping' modules will be used on which FHIR templates. For the modules developed using the provided interfaces, there are already FHIR templates for it.
 4. You can launch the transformation process through the CLI using the `cdf2fhir` command installed with the NPM package.
@@ -22,7 +22,7 @@ This package includes interfaces and templates to generate resources compliant w
 ## Installation
 
 ```
-npm install mydigitwin-cdf2fhir
+npm install mdt-cdf2fhir
 ```
 
 ## Usage
