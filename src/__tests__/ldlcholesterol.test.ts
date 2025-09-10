@@ -1,9 +1,15 @@
 import { InputSingleton } from '../inputSingleton';
-import * as cholesterolmf from '../lifelines/LDLCholesterol'
-import {LDLCholesterolReadingEntry} from '../lifelines/LDLCholesterol'
+import * as cholesterolmf from '../__testmappings__/LDLCholesterol'
+import {LDLCholesterolReadingEntry} from '../__testmappings__/LDLCholesterol'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 test('Cholesterol reports, above reference range', () => {
   
@@ -77,7 +83,7 @@ test('LDLCholesteron resource generation', () => {
   }
 
   let targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/LDLCholesterol_Diagnostic_Report.jsonata', "module": './lifelines/LDLCholesterol'},
+    { "template": './zib-2017-mappings/LDLCholesterol_Diagnostic_Report.jsonata', "module": './__testmappings__/LDLCholesterol'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -85,7 +91,7 @@ test('LDLCholesteron resource generation', () => {
   })
 
   targets = [
-    { "template": './zib-2017-mappings/LDLCholesterol_Observation.jsonata', "module": './lifelines/LDLCholesterol'},
+    { "template": './zib-2017-mappings/LDLCholesterol_Observation.jsonata', "module": './__testmappings__/LDLCholesterol'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -93,7 +99,7 @@ test('LDLCholesteron resource generation', () => {
   })
 
   targets = [
-    { "template": './zib-2017-mappings/LDLCholesterol_Specimen.jsonata', "module": './lifelines/LDLCholesterol'}
+    { "template": './zib-2017-mappings/LDLCholesterol_Specimen.jsonata', "module": './__testmappings__/LDLCholesterol'}
   ]
   
   processInput(input,targets).then((output:object[]) => {

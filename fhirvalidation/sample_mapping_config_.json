@@ -1,0 +1,20 @@
+{
+
+  "participantUniqueIdentifier": {
+    "variableName": "project_pseudo_id",
+    "assessmentName": "1a"    
+  },
+
+  "mappings":[
+    { "template": "../zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata", "module": "./__testmappings__/HDLCholesterol" },
+    { "template": "../zib-2017-mappings/generic/LabTestResult_Observation.jsonata", "module": "./__testmappings__/HDLCholesterol" },
+    { "template": "../zib-2017-mappings/generic/LabTestResult_Specimen.jsonata", "module": "./__testmappings__/HDLCholesterol" },
+
+    { "template": "../zib-2017-mappings/generic/Condition.jsonata", "module": "./__testmappings__/Diabetes" },
+    { "template": "../zib-2017-mappings/generic/Condition.jsonata", "module": "./__testmappings__/Stroke" },
+    { "template": "../zib-2017-mappings/generic/Condition.jsonata", "module": "./__testmappings__/MyocardialInfarction" },
+    { "template": "../zib-2017-mappings/generic/Condition.jsonata", "module": "./__testmappings__/HeartFailure" },
+    { "template": "../zib-2017-mappings/generic/Condition.jsonata", "module": "./__testmappings__/CardioVascularDisease" }
+  ]
+
+}

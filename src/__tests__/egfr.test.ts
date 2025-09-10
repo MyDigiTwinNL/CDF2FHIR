@@ -1,12 +1,19 @@
 import { InputSingleton } from '../inputSingleton';
-import {eGFRS} from '../lifelines/eGFR'
+import {eGFRS} from '../__testmappings__/eGFR'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 
 //test cases based on https://www.mdcalc.com/calc/3939/ckd-epi-equations-glomerular-filtration-rate-gfr
 //for 2009 CKD-EPI Creatinine (using as an input the creatinine converted from mmol/dl -Lifelines- to mg/dl)
+
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 
 test('eGFRS for male, black participant', () => {

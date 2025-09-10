@@ -1,10 +1,15 @@
 import { InputSingleton } from '../inputSingleton';
-import {haemoglobinConcentration} from '../lifelines/HaemoglobinConcentration'
+import {haemoglobinConcentration} from '../__testmappings__/HaemoglobinConcentration'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 
+
+beforeEach(() => {
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 
 test('Haemoglobine conceptration for male participant, above limit', () => {

@@ -1,11 +1,14 @@
 import { InputSingleton } from '../inputSingleton';
-import * as bloodpressuremf from '../lifelines/BloodPressure'
-import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 
 
+beforeEach(() => {  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
-test('BloodPressure resource generation', () => {
+
+test('BloodPressuxre resource generation', () => {
 
   
   const input = {
@@ -20,7 +23,7 @@ test('BloodPressure resource generation', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/BloodPressure.jsonata', "module": './lifelines/BloodPressure'},
+    { "template": './zib-2017-mappings/BloodPressure.jsonata', "module": './__testmappings__/BloodPressure'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -45,7 +48,7 @@ test('BloodPressure resource generation with empty values', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/BloodPressure.jsonata', "module": './lifelines/BloodPressure'},
+    { "template": './zib-2017-mappings/BloodPressure.jsonata', "module": './__testmappings__/BloodPressure'},
   ]
   
   processInput(input,targets).then((output:object[]) => {

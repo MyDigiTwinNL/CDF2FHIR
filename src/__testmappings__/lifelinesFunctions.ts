@@ -1,4 +1,14 @@
-import {inputValue} from './functionsCatalog';
+import {inputValue} from '../functionsCatalog';
+import {InputSingleton} from '../inputSingleton'
+
+/**
+ * DISCLAIMER:
+ * This file is derived from an implementation originally developed for the MyDigitwin project.
+ * It is included here solely to support unit tests in the distribution of this tool.
+ * The original version may continue to evolve and remains under active development.
+ * This copy does not necessarily reflect the latest or final implementation.
+ */
+
 
 /**
  * The following general-purpose functions are not intended to be used directly, as
@@ -9,22 +19,6 @@ import {inputValue} from './functionsCatalog';
  * modules. 
  * 
  */
-
-
-export const resourceId = (resourceName:string):string => `${resourceName}-${inputValue('project_pseudo_id',"1a")}`
-
-export const waveSpecificResourceId = (resourceName:string,wave:string):string => `${resourceName}-${wave}-${inputValue('project_pseudo_id','1a')}`
-
-export const echo = (text:string):void => (console.info(text))
-
-/**
- * 
- * It is assumed (from Lifelines data analysis) that when 'date' is missing in an assessment, the
- * participant dropped the study or missed the assessment.
- * @param wave 
- * @returns true if the assessment was missed, for the
- */
-export const assesmentMissed = (wave:string) => inputValue("date",wave)==undefined
 
 /**
  * 
@@ -42,6 +36,20 @@ export const collectedDateTime=function(wave:string):string|undefined{
     }    
     
 };
+
+
+
+export const echo = (text:string):void => (console.info(text))
+
+/**
+ * 
+ * It is assumed (from Lifelines data analysis) that when 'date' is missing in an assessment, the
+ * participant dropped the study or missed the assessment.
+ * @param wave 
+ * @returns true if the assessment was missed, for the
+ */
+export const assesmentMissed = (wave:string) => inputValue("date",wave)==undefined
+
 
 
 

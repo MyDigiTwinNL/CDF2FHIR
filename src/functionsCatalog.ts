@@ -3,8 +3,10 @@ import { v5 as uuidv5 } from 'uuid';
 import { InputSingleton } from './inputSingleton';
 
 
-export type variableAssessments = { [key: string]: string|undefined}
-export type transformVariables = {[key:string]:variableAssessments}
+export type variableAssessments = { [key: string]: string | undefined }
+export type transformVariables = { [key: string]: variableAssessments }
+
+
 
 /*
  * Create a proxy for JS objects that ensure that the access to non-existing properties generate an error
@@ -12,12 +14,12 @@ export type transformVariables = {[key:string]:variableAssessments}
  */
 export function createCheckedAccessProxy<T extends object>(obj: T): T {
   const handler: ProxyHandler<T> = {
-      get(target, prop, receiver) {
-          if (!(prop==='sequence' || prop==='then') && !(prop in target)) {            
-              throw new Error(`Property '${String(prop)}' does not exist in the object:${JSON.stringify(target)}`);
-          }
-          return Reflect.get(target, prop, receiver);
+    get(target, prop, receiver) {
+      if (!(prop === 'sequence' || prop === 'then') && !(prop in target)) {
+        throw new Error(`Property '${String(prop)}' does not exist in the object:${JSON.stringify(target)}`);
       }
+      return Reflect.get(target, prop, receiver);
+    }
   };
   return new Proxy(obj, handler);
 }
@@ -32,8 +34,8 @@ export const idToUUID = (id: string) => `urn:uuid:${uuidv5(id, parameters.privat
  * @param value 
  * @returns 
  */
-export const isDefined = (value:any) => {
-  return  value !== undefined
+export const isDefined = (value: unknown) => {
+  return value !== undefined
 };
 
 /**
@@ -43,18 +45,34 @@ export const isDefined = (value:any) => {
  * @param varname of the variable
  * @returns value of the given variable
  */
-export const inputValue = (varname:string,wave:string): string | undefined => {    
-    const assessmentValues = InputSingleton.getInstance().getInput(varname);
+export const inputValue = (varname: string, wave: string): string | undefined => {
+  const assessmentValues = InputSingleton.getInstance().getInput(varname);
 
-    if (assessmentValues===undefined) throw Error(`Variable ${varname} not provided in the input`)
-    if (!(wave in assessmentValues)) throw Error(`Assessment ${wave} not available for variable ${varname}`)
+  if (assessmentValues === undefined) throw Error(`Variable ${varname} not provided in the input`)
+  if (!(wave in assessmentValues)) throw Error(`Assessment ${wave} not available for variable ${varname}`)
 
-    const datafileVal = assessmentValues[wave]    
-    
-    return assessmentValues[wave]
+  return assessmentValues[wave]
 
-    
 }
+
+export function participantUniqueId(): string | undefined {
+  
+  const uniqueIdentifier = InputSingleton.getInstance().getUniqueIdentifier();
+  if (uniqueIdentifier === undefined){
+    throw new Error(`The variable name where the unique identifiers of the patient will be obtained from has not been defined yet.`);    
+  }
+  else{
+    return inputValue(uniqueIdentifier.variableName, uniqueIdentifier.assessmentName);
+  }
+  
+}
+
+export const resourceId = (resourceName: string): string => `${resourceName}-${participantUniqueId()}`
+
+export const waveSpecificResourceId = (resourceName: string, wave: string): string => `${resourceName}-${wave}-${participantUniqueId()}`
+
+
+
 
 
 /**
@@ -65,12 +83,12 @@ export const inputValue = (varname:string,wave:string): string | undefined => {
  * @param expectedAssessments assessment expected to be read from the datafile (including potentially missing ones)
  * @returns 
  */
-export const inputValues = (varname:string): variableAssessments => {
+export const inputValues = (varname: string): variableAssessments => {
   const assessmentValues = InputSingleton.getInstance().getInput(varname);
-  if (assessmentValues===undefined) throw Error(`Variable ${varname} not provided in the input`)
+  if (assessmentValues === undefined) throw Error(`Variable ${varname} not provided in the input`)
 
   return new Proxy(assessmentValues, {
-    get(target, property:string) {
+    get(target, property: string) {
       if (!(property in target)) {
         throw new Error(`Property ${String(property)} does not exist in the object ${String(JSON.stringify(target))}.`);
       }
@@ -81,44 +99,9 @@ export const inputValues = (varname:string): variableAssessments => {
 }
 
 
-
-/**
- * Returns the map with all the assessments of a given variable.
- * Access to properties not defined in a given variable will raise an error 
- * (a Proxy with this behavior is returned)
- * @param name 
- * @param expectedAssessments assessment expected to be read from the datafile (including potentially missing ones)
- * @returns 
- */
-/*export const inputValues = (name:string,expectedAssessments:string[]): variableAssessments => {    
-
-    //returns a Map. @TODO change getInput type from any to Map
-    const assessmentValues:variableAssessments = InputSingleton.getInstance().getInput()[name];
-
-    if (assessmentValues===undefined) throw Error(`Variable ${name} not provided in the input`)    
-
-    if (expectedAssessments.length !== Object.keys(assessmentValues).length){
-      throw Error(`Expected assessments for variable ${name} (${expectedAssessments}) do not match the ones in the input file (${assessmentValues})`) 
-    }
-    else{
-      //Check that all the expected assessments (including potentially missing ones) were provided
-      for (const expectedAssessment in expectedAssessments){
-        if (!(expectedAssessment in assessmentValues)){
-          throw Error(`Expected assessments for variable ${name} (${expectedAssessments}) do not match the ones in the input file (${assessmentValues}). Missing:${expectedAssessment}`) 
-        }
-      }
-
-      return assessmentValues;
-    }
-  }*/
-
-
-
-
-
 /**
  * Function for echoing strings within a JSONata expression (for debugging purposes)
  * @param text 
  * @returns 
  */
-export const echo = (text:string) => console.info(`ECHO: ${text}`);
+export const echo = (text: string) => console.info(`ECHO: ${text}`);

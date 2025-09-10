@@ -32,8 +32,13 @@ jobs:
         run: mkdir -p ~/.fhir
       
       - name: Download the cache content of the FHIR Validator
-        run: wget https://figshare.com/ndownloader/files/49362157?private_link=93fbd16af86c3f01a68a -O fhirvalidatorcache.zip
-      
+        run: |
+          curl -L \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)" \
+            -H "Referer: https://figshare.com" \
+            "https://figshare.com/ndownloader/files/49362157?private_link=93fbd16af86c3f01a68a" \
+            -o fhirvalidatorcache.zip
+
       - name: Decompress FHIR Validator Cache
         run: unzip fhirvalidatorcache.zip -d ~/.fhir
       

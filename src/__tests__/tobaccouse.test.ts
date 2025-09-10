@@ -1,8 +1,15 @@
 import { InputSingleton } from '../inputSingleton';
-import { TobaccoUseProperties } from '../lifelines/TobaccoUse'
-import * as tobbacousemf from '../lifelines/TobaccoUse'
+import { TobaccoUseProperties } from '../__testmappings__/TobaccoUse'
+import * as tobbacousemf from '../__testmappings__/TobaccoUse'
 import { tobaccoUseStatusSNOMEDCodelist } from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 
 test('non-smoker', () => {
@@ -161,7 +168,7 @@ test('Resource generation - participant started smoking before the baseline asse
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/TobaccoUse.jsonata', "module": './lifelines/TobaccoUse' },
+    { "template": './zib-2017-mappings/TobaccoUse.jsonata', "module": './__testmappings__/TobaccoUse' },
   ]
 
   processInput(input, targets).then((output: object[]) => {
@@ -187,7 +194,7 @@ test('Resource generation - non-smoker', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/TobaccoUse.jsonata', "module": './lifelines/TobaccoUse' },
+    { "template": './zib-2017-mappings/TobaccoUse.jsonata', "module": './__testmappings__/TobaccoUse' },
   ]
 
   processInput(input, targets).then((output: object[]) => {

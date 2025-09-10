@@ -4,7 +4,9 @@ const os = require('os');
 const { execSync } = require('child_process');
 
 // Directory containing the sample input files
-const directoryPath = path.join(__dirname, './sampleinputs');
+const inputSamplesDirectoryPath = path.join(__dirname, './sampleinputs');
+
+const sampleConfigFile = path.join(__dirname, './sample_mapping_config_.json');
 
 
 // Generate a random folder name to store the temporary input files and the JAR output
@@ -31,14 +33,15 @@ if (!fs.existsSync(FHIR_VALIDATOR_PATH)) {
 }
 
 // Get the list of files in the directory
-const files = fs.readdirSync(directoryPath);
+const files = fs.readdirSync(inputSamplesDirectoryPath);
 
 // Create temporary input files
 const tempInputFiles = files.map((file) => {
-  const filePath = path.join(directoryPath, file);
+  const filePath = path.join(inputSamplesDirectoryPath, file);
   const randomFileName = Math.random().toString(36).substring(7) + '.json';
   const tempInputFile = path.join(outputTempFolder, randomFileName);
-  const tsCommand = `node ${path.join(__dirname, '..', 'dist', 'transform')}  ${filePath} > ${tempInputFile}`;  
+  const tsCommand = `node ${path.join(__dirname, '..', 'dist', 'transform')} ${sampleConfigFile}  ${filePath} > ${tempInputFile}`;  
+
   console.info(`Executing ${tsCommand}`)
   
   execSync(tsCommand, { cwd: `${path.join(__dirname, '..', 'dist')}` });

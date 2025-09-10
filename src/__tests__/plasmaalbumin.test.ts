@@ -1,11 +1,16 @@
 import { InputSingleton } from '../inputSingleton';
-import {plasmaAlbumin} from '../lifelines/PlasmaAlbumin'
+import {plasmaAlbumin} from '../__testmappings__/PlasmaAlbumin'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 test('Plasma albumin above reference range', () => {
 

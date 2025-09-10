@@ -1,6 +1,13 @@
 import { InputSingleton } from '../inputSingleton';
-import {diabetes} from '../lifelines/Diabetes'
-import { MappingTarget, processInput } from '../mapper'
+import {diabetes} from '../__testmappings__/Diabetes'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
 
 test('diabetes clinical status, when reported positive in 1A, diabetes type 2', () => {
 
@@ -223,7 +230,7 @@ test('Diabates resource generation when not reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/Diabetes' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/Diabetes' },
   ]
 
   processInput(input, targets).then((output: object[]) => {

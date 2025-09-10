@@ -1,7 +1,12 @@
 import { InputSingleton } from '../inputSingleton';
-import {researchSubjectAndStudy} from '../lifelines/ResearchSubjectAndStudy'
-import { MappingTarget, processInput } from '../mapper'
+import {researchSubjectAndStudy} from '../__testmappings__/ResearchSubjectAndStudy'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 test('Skipped one or more assessment, but participated in the last one', () => {
   
@@ -72,7 +77,7 @@ test('Subject and study resource generation', () => {
       }  
     
     let targets: MappingTarget[] = [
-      { "template": './zib-2017-mappings/ResearchStudy.jsonata', "module": './lifelines/ResearchSubjectAndStudy.ts'},
+      { "template": './zib-2017-mappings/ResearchStudy.jsonata', "module": './__testmappings__/ResearchSubjectAndStudy.ts'},
     ]
     
     processInput(input,targets).then((output:object[]) => {
@@ -80,7 +85,7 @@ test('Subject and study resource generation', () => {
     })
 
     targets = [
-        { "template": './zib-2017-mappings/ResearchStudy.jsonata', "module": './lifelines/ResearchSubjectAndStudy.ts'},
+        { "template": './zib-2017-mappings/ResearchStudy.jsonata', "module": './__testmappings__/ResearchSubjectAndStudy.ts'},
     ]
       
     processInput(input,targets).then((output:object[]) => {

@@ -64,7 +64,7 @@ export class CodesCollection {
         this.manchetMap = this.loadCodesFile(path.resolve(__dirname, '../../codefiles/manchet.csv'))
         this.fhirv3Map = this.loadCodesFile(path.resolve(__dirname, '../../codefiles/fhirv3.csv'))
         this.ucumMap = this.loadCodesFile(path.resolve(__dirname, '../../codefiles/ucum.csv'))
-    };
+    }
 
     public static getInstance(): CodesCollection {
         if (!this.instance) {

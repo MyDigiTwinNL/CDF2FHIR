@@ -1,10 +1,16 @@
 import { InputSingleton } from '../inputSingleton';
-import * as hdlcholesterolmf from '../lifelines/HDLCholesterol'
+import * as hdlcholesterolmf from '../__testmappings__/HDLCholesterol'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 
 test('HDL Cholesterol reports, below reference lower limit', () => {
@@ -77,7 +83,7 @@ test('HDLCholesterol resource generation ()', () => {
   }
 
   let targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata', "module": './lifelines/HDLCholesterol'},
+    { "template": './zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata', "module": './__testmappings__/HDLCholesterol'},
   ]
   
   processInput(input,targets).then((output:object[]) => {    
@@ -86,7 +92,7 @@ test('HDLCholesterol resource generation ()', () => {
 
  
   targets = [
-    { "template": './zib-2017-mappings/generic/LabTestResult_Observation.jsonata', "module": './lifelines/HDLCholesterol'},
+    { "template": './zib-2017-mappings/generic/LabTestResult_Observation.jsonata', "module": './__testmappings__/HDLCholesterol'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -94,7 +100,7 @@ test('HDLCholesterol resource generation ()', () => {
   })
 
   targets = [
-    { "template": './zib-2017-mappings/generic/LabTestResult_Specimen.jsonata', "module": './lifelines/HDLCholesterol'}
+    { "template": './zib-2017-mappings/generic/LabTestResult_Specimen.jsonata', "module": './__testmappings__/HDLCholesterol'}
   ]
   
   processInput(input,targets).then((output:object[]) => {

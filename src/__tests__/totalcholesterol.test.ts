@@ -1,8 +1,15 @@
 import { InputSingleton } from '../inputSingleton';
-import * as totalCholesterolFunctions from '../lifelines/TotalCholesterol'
-import {TotalCholesterolReadingEntry} from '../lifelines/TotalCholesterol'
+import * as totalCholesterolFunctions from '../__testmappings__/TotalCholesterol'
+import {TotalCholesterolReadingEntry} from '../__testmappings__/TotalCholesterol'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 
 test('Cholesterol reports, above reference range', () => {
@@ -77,7 +84,7 @@ test('Total Cholesterol resource generation', () => {
   }
 
   let targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/TotalCholesterol_Diagnostic_Report.jsonata', "module": './lifelines/TotalCholesterol'},
+    { "template": './zib-2017-mappings/TotalCholesterol_Diagnostic_Report.jsonata', "module": './__testmappings__/TotalCholesterol'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -85,7 +92,7 @@ test('Total Cholesterol resource generation', () => {
   })
 
   targets = [
-    { "template": './zib-2017-mappings/TotalCholesterol_Observation.jsonata', "module": './lifelines/TotalCholesterol'},
+    { "template": './zib-2017-mappings/TotalCholesterol_Observation.jsonata', "module": './__testmappings__/TotalCholesterol'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -93,7 +100,7 @@ test('Total Cholesterol resource generation', () => {
   })
 
   targets = [
-    { "template": './zib-2017-mappings/TotalCholesterol_Specimen.jsonata', "module": './lifelines/TotalCholesterol'}
+    { "template": './zib-2017-mappings/TotalCholesterol_Specimen.jsonata', "module": './__testmappings__/TotalCholesterol'}
   ]
   
   processInput(input,targets).then((output:object[]) => {

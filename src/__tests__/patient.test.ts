@@ -1,10 +1,17 @@
 import { InputSingleton } from '../inputSingleton';
-import * as patientmf from '../lifelines/Patient'
+import * as patientmf from '../__testmappings__/Patient'
 import {genderFHIRV3Codes} from '../codes/fhirv3codes'
-import { MappingTarget, processInput } from '../mapper'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 test('Male patient', () => {
+
   
   const input = {
     "age": {"1a":"22"},
@@ -13,6 +20,7 @@ test('Male patient', () => {
     "date_of_death": {"global":"2010-2"}
   }  
 
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
   InputSingleton.getInstance().setInput(input);
   expect(patientmf.birthDate()).toBe("1970");
   expect(patientmf.gender()).toBe(genderFHIRV3Codes.male)
@@ -53,7 +61,7 @@ test('Patient resource generation', () => {
       }  
       
     const targets: MappingTarget[] = [
-      { "template": './zib-2017-mappings/Patient.jsonata', "module": './lifelines/Patient'},
+      { "template": './zib-2017-mappings/Patient.jsonata', "module": './__testmappings__/Patient'},
     ]
     
     processInput(input,targets).then((output:object[]) => {

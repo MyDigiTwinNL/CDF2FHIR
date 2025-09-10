@@ -1,7 +1,13 @@
 import { InputSingleton } from '../inputSingleton';
-import { cardioVascularDisease } from '../lifelines/CardioVascularDisease'; 
-import { MappingTarget, processInput } from '../mapper'
-import {getSNOMEDCode} from '../codes/codesCollection'
+import { cardioVascularDisease } from '../__testmappings__/CardioVascularDisease'; 
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
+
 
 test('CVD , when none of the related conditions (MI, HF, Stroke) are present', () => {
 
@@ -172,7 +178,7 @@ test('CVD resource generation when reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/CardioVascularDisease' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/CardioVascularDisease' },
   ]
 
   processInput(input, targets).then((output: object[]) => {

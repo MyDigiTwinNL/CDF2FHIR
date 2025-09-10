@@ -1,7 +1,14 @@
 import { InputSingleton } from '../inputSingleton';
-import * as strokemf from '../lifelines/Stroke'
-import { MappingTarget, processInput } from '../mapper'
+import * as strokemf from '../__testmappings__/Stroke'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import {getSNOMEDCode} from '../codes/codesCollection'
+
+
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 test('stroke, when reported positive in 1A', () => {
 
@@ -154,7 +161,7 @@ test('Stroke resource generation when not reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/Stroke' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/Stroke' },
   ]
 
   processInput(input, targets).then((output: object[]) => {
@@ -183,7 +190,7 @@ test('Stroke resource generation when reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/Stroke' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/Stroke' },
   ]
 
   processInput(input, targets).then((output: object[]) => {

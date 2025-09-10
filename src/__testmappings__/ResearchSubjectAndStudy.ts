@@ -1,7 +1,17 @@
 import {ResearchSubjectAndStudy, StudyStatus} from '../fhir-resource-interfaces/researchSubjectAndStudy'
 import { assertIsDefined } from '../unexpectedInputException'
-import { lifelinesDateToISO } from '../lifelinesFunctions'
+import { lifelinesDateToISO } from './lifelinesFunctions'
 import { inputValue, inputValues, variableAssessments } from '../functionsCatalog'
+
+
+/**
+ * DISCLAIMER:
+ * This file is derived from an implementation originally developed for the MyDigitwin project.
+ * It is included here solely to support unit tests in the distribution of this tool.
+ * The original version may continue to evolve and remains under active development.
+ * This copy does not necessarily reflect the latest or final implementation.
+ */
+
 
 /**
  *                       [global][1a][1b][1c][2a][3a][3b]

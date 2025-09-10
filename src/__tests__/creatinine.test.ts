@@ -1,10 +1,14 @@
 import { InputSingleton } from '../inputSingleton';
-import {creatinine} from '../lifelines/Creatinine'
-import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
-import { MappingTarget, processInput } from '../mapper'
+import {creatinine} from '../__testmappings__/Creatinine'
+import { processInput } from '../mapper'
+import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
 import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 
+beforeEach(() => {
+  
+  InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
+});
 
 
 test('Creatinine conceptration for male participant, above limit', () => {

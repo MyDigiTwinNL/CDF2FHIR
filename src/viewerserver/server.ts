@@ -1,9 +1,13 @@
 import express from 'express';
 import WebSocket from 'ws';
 import path from 'path'
-import fs from 'fs'
 import { processInput } from '../mapper'
-import { targets } from './serversettings'
+import { InputSingleton } from '../inputSingleton'
+import { targets, idvar } from './serversettings'
+
+/**
+ * 
+ */
 
 //To resolve all relative paths from the 'dist' folder.
 const folderPath = path.resolve(__dirname);
@@ -31,6 +35,7 @@ wss.on('connection', (ws: WebSocket) => {
             const message: ServerRequest = JSON.parse(data.toString());
             if (message.command === 'transform') {
                 const input = JSON.parse(message.payload);
+                InputSingleton.getInstance().setUniqueIdentifierVariable(idvar);
                 processInput(input, targets).then(
                     (output) => {                    
                         ws.send(JSON.stringify({"responsetype":"output","payload":output}));
@@ -54,10 +59,6 @@ wss.on('connection', (ws: WebSocket) => {
     })
 })
 
-type transformationOutput = {
-    source: string;
-    output: string;
-}
 
 /*
 For real-time update
