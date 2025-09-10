@@ -1,4 +1,4 @@
-import {lifelinesMeanDate} from '../lifelinesFunctions'
+import {lifelinesMeanDate} from '../__testmappings__/lifelinesFunctions'
 
 test('Mean between dates', () => {
   

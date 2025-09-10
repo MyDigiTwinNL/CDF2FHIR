@@ -6,9 +6,9 @@ import fs from 'fs';
 
   const output = "";
   const targets: MappingTarget[] = [
-    { "template": '../zib-2017-mappings/LDLCholesterol_Diagnostic_Report.jsonata', "module": './lifelines/LDLCholesterol'},
-    { "template": '../zib-2017-mappings/LDLCholesterol_Observation.jsonata', "module": './lifelines/LDLCholesterol'},
-    { "template": '../zib-2017-mappings/LDLCholesterol_Specimen.jsonata', "module": './lifelines/LDLCholesterol' }
+    { "template": '../zib-2017-mappings/LDLCholesterol_Diagnostic_Report.jsonata', "module": './__testmappings__/LDLCholesterol'},
+    { "template": '../zib-2017-mappings/LDLCholesterol_Observation.jsonata', "module": './__testmappings__/LDLCholesterol'},
+    { "template": '../zib-2017-mappings/LDLCholesterol_Specimen.jsonata', "module": './__testmappings__/LDLCholesterol' }
   ];
 
   const input = {

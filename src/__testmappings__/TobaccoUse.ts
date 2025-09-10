@@ -1,9 +1,18 @@
 import { inputValue,createCheckedAccessProxy } from '../functionsCatalog';
-import { lifelinesDateToISO } from '../lifelinesFunctions'
+import { lifelinesDateToISO } from './lifelinesFunctions'
 import moize from 'moize'
 import { tobaccoUseStatusSNOMEDCodelist,typeOfTobaccoUsedSNOMEDCodelist} from '../codes/snomedCodeLists';
 
 import {UnexpectedInputException,assertIsDefined} from '../unexpectedInputException'
+
+/**
+ * DISCLAIMER:
+ * This file is derived from an implementation originally developed for the MyDigitwin project.
+ * It is included here solely to support unit tests in the distribution of this tool.
+ * The original version may continue to evolve and remains under active development.
+ * This copy does not necessarily reflect the latest or final implementation.
+ */
+
 
 /**
  * Based on HCIM Tobacco ZIB resource https://zibs.nl/wiki/TobaccoUse-v3.1(2017EN)

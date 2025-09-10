@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import {haemoglobinConcentration} from '../lifelines/HaemoglobinConcentration'
+import {haemoglobinConcentration} from '../__testmappings__/HaemoglobinConcentration'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';

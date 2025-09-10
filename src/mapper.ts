@@ -5,8 +5,6 @@ import path from "path"
 
 import * as funcatalog from './functionsCatalog';
 
-import * as lifelinesfunc from './lifelinesFunctions';
-
 import { MappingConfig, MappingTarget } from './transformationConfig';
 
 import { privateNameSpace } from './transformationParameters';

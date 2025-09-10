@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import {hbA1c} from '../lifelines/HbA1c'
+import {hbA1c} from '../__testmappings__/HbA1c'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';

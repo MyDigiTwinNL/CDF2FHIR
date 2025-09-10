@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import * as strokemf from '../lifelines/Stroke'
+import * as strokemf from '../__testmappings__/Stroke'
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 import {getSNOMEDCode} from '../codes/codesCollection'
@@ -161,7 +161,7 @@ test('Stroke resource generation when not reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/Stroke' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/Stroke' },
   ]
 
   processInput(input, targets).then((output: object[]) => {
@@ -190,7 +190,7 @@ test('Stroke resource generation when reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/Stroke' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/Stroke' },
   ]
 
   processInput(input, targets).then((output: object[]) => {

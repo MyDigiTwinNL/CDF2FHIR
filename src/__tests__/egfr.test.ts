@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import {eGFRS} from '../lifelines/eGFR'
+import {eGFRS} from '../__testmappings__/eGFR'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';

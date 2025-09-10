@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import { heartFailure } from '../lifelines/HeartFailure'; 
+import { heartFailure } from '../__testmappings__/HeartFailure'; 
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 import {getSNOMEDCode} from '../codes/codesCollection'
@@ -203,7 +203,7 @@ test('heart failure resource generation when not reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/HeartFailure' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/HeartFailure' },
   ]
 
   processInput(input, targets).then((output: object[]) => {
@@ -232,7 +232,7 @@ test('heart failure resource generation when reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/HeartFailure' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/HeartFailure' },
   ]
 
   processInput(input, targets).then((output: object[]) => {

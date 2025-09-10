@@ -3,6 +3,16 @@ import moize from 'moize'
 import {clinicalStatusSNOMEDCodeList,verificationStatusSNOMEDCodeList,conditionsSNOMEDCodeList} from '../codes/snomedCodeLists';
 import {assertIsDefined} from '../unexpectedInputException'
 
+/**
+ * DISCLAIMER:
+ * This file is derived from an implementation originally developed for the MyDigitwin project.
+ * It is included here solely to support unit tests in the distribution of this tool.
+ * The original version may continue to evolve and remains under active development.
+ * This copy does not necessarily reflect the latest or final implementation.
+ */
+
+
+
 /*
 Based on HCIM Problem resource:
 https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.12/files/2002573

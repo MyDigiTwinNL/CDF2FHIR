@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import {plasmaAlbumin} from '../lifelines/PlasmaAlbumin'
+import {plasmaAlbumin} from '../__testmappings__/PlasmaAlbumin'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';

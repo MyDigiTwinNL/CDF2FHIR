@@ -1,5 +1,5 @@
 import moize from 'moize'
-import {lifelinesDateToISO, lifelinesMeanDate} from '../lifelinesFunctions'
+import {lifelinesDateToISO, lifelinesMeanDate} from './lifelinesFunctions'
 import {inputValue, inputValues,variableAssessments} from '../functionsCatalog';
 
 import {myocardialInfarction} from './MyocardialInfarction'
@@ -9,6 +9,15 @@ import {stroke} from './Stroke'
 import {Condition} from '../fhir-resource-interfaces/condition'
 import {getSNOMEDCode,CodeProperties} from '../codes/codesCollection'
 import {assertIsDefined} from '../unexpectedInputException'
+
+
+/**
+ * DISCLAIMER:
+ * This file is derived from an implementation originally developed for the MyDigitwin project.
+ * It is included here solely to support unit tests in the distribution of this tool.
+ * The original version may continue to evolve and remains under active development.
+ * This copy does not necessarily reflect the latest or final implementation.
+ */
 
 
 export const cardioVascularDisease:Condition = {

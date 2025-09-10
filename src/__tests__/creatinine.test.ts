@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import {creatinine} from '../lifelines/Creatinine'
+import {creatinine} from '../__testmappings__/Creatinine'
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';

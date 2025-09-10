@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import {diabetes} from '../lifelines/Diabetes'
+import {diabetes} from '../__testmappings__/Diabetes'
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
@@ -230,7 +230,7 @@ test('Diabates resource generation when not reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/Diabetes' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/Diabetes' },
   ]
 
   processInput(input, targets).then((output: object[]) => {

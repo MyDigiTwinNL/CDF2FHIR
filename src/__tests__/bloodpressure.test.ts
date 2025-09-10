@@ -23,7 +23,7 @@ test('BloodPressuxre resource generation', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/BloodPressure.jsonata', "module": './lifelines/BloodPressure'},
+    { "template": './zib-2017-mappings/BloodPressure.jsonata', "module": './__testmappings__/BloodPressure'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -48,7 +48,7 @@ test('BloodPressure resource generation with empty values', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/BloodPressure.jsonata', "module": './lifelines/BloodPressure'},
+    { "template": './zib-2017-mappings/BloodPressure.jsonata', "module": './__testmappings__/BloodPressure'},
   ]
   
   processInput(input,targets).then((output:object[]) => {

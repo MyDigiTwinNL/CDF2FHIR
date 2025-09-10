@@ -1,7 +1,15 @@
 import {inputValue,createCheckedAccessProxy} from '../functionsCatalog';
-import {assesmentMissed,collectedDateTime} from '../lifelinesFunctions'
+import {assesmentMissed,collectedDateTime} from './lifelinesFunctions'
 import {LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
 import {getSNOMEDCode,getLOINCCode,getUCUMCode,CodeProperties} from '../codes/codesCollection'
+
+/**
+ * DISCLAIMER:
+ * This file is derived from an implementation originally developed for the MyDigitwin project.
+ * It is included here solely to support unit tests in the distribution of this tool.
+ * The original version may continue to evolve and remains under active development.
+ * This copy does not necessarily reflect the latest or final implementation.
+ */
 
 
 /*

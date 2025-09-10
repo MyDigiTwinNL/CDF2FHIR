@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import * as patientmf from '../lifelines/Patient'
+import * as patientmf from '../__testmappings__/Patient'
 import {genderFHIRV3Codes} from '../codes/fhirv3codes'
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
@@ -61,7 +61,7 @@ test('Patient resource generation', () => {
       }  
       
     const targets: MappingTarget[] = [
-      { "template": './zib-2017-mappings/Patient.jsonata', "module": './lifelines/Patient'},
+      { "template": './zib-2017-mappings/Patient.jsonata', "module": './__testmappings__/Patient'},
     ]
     
     processInput(input,targets).then((output:object[]) => {

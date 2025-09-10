@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import * as hdlcholesterolmf from '../lifelines/HDLCholesterol'
+import * as hdlcholesterolmf from '../__testmappings__/HDLCholesterol'
 import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
@@ -83,7 +83,7 @@ test('HDLCholesterol resource generation ()', () => {
   }
 
   let targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata', "module": './lifelines/HDLCholesterol'},
+    { "template": './zib-2017-mappings/generic/LabTestResult_Diagnostic_Report.jsonata', "module": './__testmappings__/HDLCholesterol'},
   ]
   
   processInput(input,targets).then((output:object[]) => {    
@@ -92,7 +92,7 @@ test('HDLCholesterol resource generation ()', () => {
 
  
   targets = [
-    { "template": './zib-2017-mappings/generic/LabTestResult_Observation.jsonata', "module": './lifelines/HDLCholesterol'},
+    { "template": './zib-2017-mappings/generic/LabTestResult_Observation.jsonata', "module": './__testmappings__/HDLCholesterol'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -100,7 +100,7 @@ test('HDLCholesterol resource generation ()', () => {
   })
 
   targets = [
-    { "template": './zib-2017-mappings/generic/LabTestResult_Specimen.jsonata', "module": './lifelines/HDLCholesterol'}
+    { "template": './zib-2017-mappings/generic/LabTestResult_Specimen.jsonata', "module": './__testmappings__/HDLCholesterol'}
   ]
   
   processInput(input,targets).then((output:object[]) => {

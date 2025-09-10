@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import { cardioVascularDisease } from '../lifelines/CardioVascularDisease'; 
+import { cardioVascularDisease } from '../__testmappings__/CardioVascularDisease'; 
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
@@ -178,7 +178,7 @@ test('CVD resource generation when reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './lifelines/CardioVascularDisease' },
+    { "template": './zib-2017-mappings/generic/Condition.jsonata', "module": './__testmappings__/CardioVascularDisease' },
   ]
 
   processInput(input, targets).then((output: object[]) => {

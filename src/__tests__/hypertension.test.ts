@@ -1,5 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import * as hypertensionmf from '../lifelines/Hypertension'
+import * as hypertensionmf from '../__testmappings__/Hypertension'
 import { clinicalStatusSNOMEDCodeList, conditionsSNOMEDCodeList, verificationStatusSNOMEDCodeList } from '../codes/snomedCodeLists';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
@@ -58,7 +58,7 @@ test('Hypertension resource generation when it is reported', () => {
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/Hypertension.jsonata', "module": './lifelines/Hypertension'},
+    { "template": './zib-2017-mappings/Hypertension.jsonata', "module": './__testmappings__/Hypertension'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
@@ -87,7 +87,7 @@ test('Hypertension resource generation when no hypertension is reported', () => 
   }
 
   const targets: MappingTarget[] = [
-    { "template": './zib-2017-mappings/Hypertension.jsonata', "module": './lifelines/Hypertension'},
+    { "template": './zib-2017-mappings/Hypertension.jsonata', "module": './__testmappings__/Hypertension'},
   ]
   
   processInput(input,targets).then((output:object[]) => {
