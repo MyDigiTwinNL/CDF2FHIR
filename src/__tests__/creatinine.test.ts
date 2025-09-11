@@ -3,7 +3,7 @@ import {creatinine} from '../__testmappings__/Creatinine'
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
-import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
+import {TestResultEntry} from '../fhir-resource-interfaces/zib2017laboratoryTestResult'
 
 beforeEach(() => {
   

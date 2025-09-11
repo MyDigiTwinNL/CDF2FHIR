@@ -1,7 +1,7 @@
-import {inputValue} from '../functionsCatalog';
-import {genderFHIRV3Codes} from '../codes/fhirv3codes'
-import {lifelinesDateToISO} from './lifelinesFunctions'
-import {UnexpectedInputException,assertIsDefined} from '../unexpectedInputException'
+import { Zib2017Patient } from '../fhir-resource-interfaces/zib2017patient';
+import { inputValue } from '../functionsCatalog';
+import { lifelinesDateToISO } from './lifelinesFunctions'
+import { CodeProperties, CodesCollection } from '../codes/codesCollection';
 
 
 /**
@@ -22,6 +22,21 @@ gender, age (See Lifelines data manual)
 
 */
 
+
+export const patient: Zib2017Patient = {
+
+    birthDate: function (): string | undefined {
+        return lifelinesBirthDate();
+    },
+    deceasedDateTime: function (): string | undefined {
+        return lifelinesDeceasedDateTime();
+    },
+    gender: function (): CodeProperties | undefined {
+        return lifelinesGender();
+    }
+
+}
+
 /**
  * 
  * @precondition in reported age is defined, it is a number
@@ -29,50 +44,50 @@ gender, age (See Lifelines data manual)
  * @returns approximate birthdate given the baseline assessment date and the reported age. Undefined
  *          if there is no reported age or undefined assessment date.
  */
-export const birthDate = ():string|undefined => {   
-        const assessmetDate:string|undefined = inputValue("date","1a")
+const lifelinesBirthDate = (): string | undefined => {
+    const assessmetDate: string | undefined = inputValue("date", "1a")
 
-        if (assessmetDate === undefined){
-            return undefined
-        }
-        else{
-            const surveyDateParts = assessmetDate.split("-");
-        
-            const reportedAge:string|undefined = inputValue("age","1a")
-    
-            if (reportedAge!=undefined){
-                const surveyAge = Number(reportedAge);      
-                const surveyYear = Number(surveyDateParts[0]);
-                return (surveyYear-surveyAge).toString()
-            }
-            else{
-                return undefined;
-            }    
-        }
+    if (assessmetDate === undefined) {
+        return undefined
+    }
+    else {
+        const surveyDateParts = assessmetDate.split("-");
 
-        
+        const reportedAge: string | undefined = inputValue("age", "1a")
+
+        if (reportedAge != undefined) {
+            const surveyAge = Number(reportedAge);
+            const surveyYear = Number(surveyDateParts[0]);
+            return (surveyYear - surveyAge).toString()
+        }
+        else {
+            return undefined;
+        }
+    }
+
+
 }
 
-
-export const deceasedDateTime = ():string|undefined => {
-    const dod = inputValue("date_of_death","global")
-    if (dod!==undefined){
+const lifelinesDeceasedDateTime = (): string | undefined => {
+    const dod = inputValue("date_of_death", "global")
+    if (dod !== undefined) {
         return lifelinesDateToISO(dod)
     }
-    else{
-        return undefined;    
+    else {
+        return undefined;
     }
-    
+
 }
 
-export const gender = ():object|undefined => {
-    if (inputValue("gender","1a")==="MALE"){
-        return genderFHIRV3Codes.male;
+const lifelinesGender = (): CodeProperties | undefined => {
+
+    if (inputValue("gender", "1a") === "MALE") {
+        return CodesCollection.getInstance().getFHIRV3Code("M")
     }
-    else if (inputValue("gender","1a")==="FEMALE"){
-        return genderFHIRV3Codes.female;
+    else if (inputValue("gender", "1a") === "FEMALE") {
+        return CodesCollection.getInstance().getFHIRV3Code("F")
     }
-    else{
+    else {
         return undefined;
-    }    
+    }
 }    

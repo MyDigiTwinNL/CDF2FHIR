@@ -1,6 +1,6 @@
 import {inputValue,createCheckedAccessProxy} from '../functionsCatalog';
 import {assesmentMissed,collectedDateTime} from './lifelinesFunctions'
-import {LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
+import {Zib2017LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/zib2017laboratoryTestResult'
 import {getSNOMEDCode,getLOINCCode,getUCUMCode,CodeProperties} from '../codes/codesCollection'
 
 
@@ -57,7 +57,7 @@ https://www.umcg.nl/bw/42976573-722a-48fc-a650-5ea718fd1717
  *          - collectedDateTime: date of assessment_N         
  * 
  */
-export const haemoglobinConcentration:LaboratoryTestResult = {
+export const haemoglobinConcentration:Zib2017LaboratoryTestResult = {
     referenceRangeUpperLimit: function (): number | undefined {
         return undefined;
     },

@@ -1,4 +1,4 @@
-import {ResearchSubjectAndStudy, StudyStatus} from '../fhir-resource-interfaces/researchSubjectAndStudy'
+import {Zib2017ResearchSubjectAndStudy, StudyStatus} from '../fhir-resource-interfaces/zib2017researchSubjectAndStudy'
 import { assertIsDefined } from '../unexpectedInputException'
 import { lifelinesDateToISO } from './lifelinesFunctions'
 import { inputValue, inputValues, variableAssessments } from '../functionsCatalog'
@@ -21,7 +21,7 @@ import { inputValue, inputValues, variableAssessments } from '../functionsCatalo
  *  
  * 
  */
-export const researchSubjectAndStudy:ResearchSubjectAndStudy = {
+export const researchSubjectAndStudy:Zib2017ResearchSubjectAndStudy = {
     studyName: function (): string {
         return "Lifelines-Netherlands";
     },

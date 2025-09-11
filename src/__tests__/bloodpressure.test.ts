@@ -2,7 +2,7 @@ import { InputSingleton } from '../inputSingleton';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 import { bloodPressure } from '../__testmappings__/BloodPressure'; 
-import {BloodPressureReadingEntry} from '../fhir-resource-interfaces/bloodPressure';
+import {BloodPressureReadingEntry} from '../fhir-resource-interfaces/zib2017bloodPressure';
 
 
 beforeEach(() => {  

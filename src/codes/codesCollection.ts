@@ -97,11 +97,13 @@ export class CodesCollection {
         throw Error(`Error while trying to access an undefined MANCHET code ${code}`)
     }
 
+    public getFHIRV3Code(code:string): CodeProperties {
+        const codeProp = this.fhirv3Map.get(code);
+        if (codeProp!==undefined) return codeProp;
+        throw Error(`Error while trying to access an undefined FHIRV3 code ${code}`)
+    }
+
+
 
 }
-
-//const cl = CodesCollection.getInstance();
-//console.info(cl.getSNOMEDCode('6685009'))
-//console.info(cl.getLOINCCode('14646-4'))
-
 

@@ -3,7 +3,7 @@ import { lifelinesDateToISO } from './lifelinesFunctions'
 import moize from 'moize'
 import { measuringLocationSNOMEDCodelist } from '../codes/snomedCodeLists';
 import {assertIsDefined} from '../unexpectedInputException'
-import {BloodPressure, BloodPressureReadingEntry} from '../fhir-resource-interfaces/bloodPressure'
+import {Zib2017BloodPressure, BloodPressureReadingEntry} from '../fhir-resource-interfaces/zib2017bloodPressure'
 import { CodeProperties, CodesCollection } from '../codes/codesCollection';
 
 
@@ -28,7 +28,7 @@ http://wiki.lifelines.nl/doku.php?id=blood_pressure
 /**
  * The object (that implements the BP interface) required to generate the BP FHIR resource.
  */
-export const bloodPressure:BloodPressure = {
+export const bloodPressure:Zib2017BloodPressure = {
     results: function (): BloodPressureReadingEntry[] {
         return lifelinesResults();
     }

@@ -13,7 +13,7 @@ export enum StudyStatus {
     ENTERED_IN_ERROR = "entered-in-error"
 }
 
-export interface ResearchSubjectAndStudy {
+export interface Zib2017ResearchSubjectAndStudy {
     dateOfInclusion():string,
     dateOfLastResponse():string
     studyName():string,

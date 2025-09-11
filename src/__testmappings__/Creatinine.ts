@@ -1,6 +1,6 @@
 import {inputValue,createCheckedAccessProxy} from '../functionsCatalog';
 import {assesmentMissed,collectedDateTime} from './lifelinesFunctions'
-import {LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
+import {Zib2017LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/zib2017laboratoryTestResult'
 import {getSNOMEDCode,getLOINCCode,getUCUMCode,CodeProperties} from '../codes/codesCollection'
 
 /**
@@ -58,7 +58,7 @@ https://www.umcg.nl/bw/7f1121a4-bc7d-4c82-92e9-163fd7c41162
  * 
  */
 
-export const creatinine:LaboratoryTestResult = {
+export const creatinine:Zib2017LaboratoryTestResult = {
     labTestName: function (): string {
         return "creatinine"
     },

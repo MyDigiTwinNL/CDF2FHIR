@@ -1,6 +1,6 @@
 import {inputValue,createCheckedAccessProxy} from '../functionsCatalog';
 import {assesmentMissed,collectedDateTime} from './lifelinesFunctions'
-import {LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
+import {Zib2017LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/zib2017laboratoryTestResult'
 import {getSNOMEDCode,getLOINCCode,getUCUMCode,CodeProperties} from '../codes/codesCollection'
 
 
@@ -31,7 +31,7 @@ import {getSNOMEDCode,getLOINCCode,getUCUMCode,CodeProperties} from '../codes/co
  */
 
 
-export const hdlCholesterol:LaboratoryTestResult = {
+export const hdlCholesterol:Zib2017LaboratoryTestResult = {
     referenceRangeUpperLimit: function (): number | undefined {
         //only lower limit defined for hdl cholesterol
         return undefined;

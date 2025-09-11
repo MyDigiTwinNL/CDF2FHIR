@@ -1,7 +1,7 @@
 import moize from 'moize'
 import {lifelinesDateToISO, lifelinesMeanDate} from './lifelinesFunctions'
 import {inputValue, inputValues,variableAssessments} from '../functionsCatalog';
-import {Condition} from '../fhir-resource-interfaces/condition'
+import {Zib2017Condition} from '../fhir-resource-interfaces/zib2017condition'
 import {getSNOMEDCode,CodeProperties} from '../codes/codesCollection'
 import {assertIsDefined} from '../unexpectedInputException'
 
@@ -15,7 +15,7 @@ import {assertIsDefined} from '../unexpectedInputException'
  */
 
 
-export const heartFailure:Condition = {
+export const heartFailure:Zib2017Condition = {
 
     conditionName: function (): string {
         return 'heart-failure';

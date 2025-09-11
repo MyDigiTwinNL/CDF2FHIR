@@ -1,6 +1,6 @@
 import {inputValue,createCheckedAccessProxy} from '../functionsCatalog';
 import {lifelinesDateToISO,substractDates,collectedDateTime,assesmentMissed} from './lifelinesFunctions'
-import {LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
+import {Zib2017LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/zib2017laboratoryTestResult'
 import {getSNOMEDCode,getLOINCCode,getUCUMCode,CodeProperties} from '../codes/codesCollection'
 import {assertIsDefined} from '../unexpectedInputException'
 
@@ -71,7 +71,7 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2763564/
  *          - collectedDateTime: date of assessment_N         
  * 
  **/
-export const eGFRS:LaboratoryTestResult = {
+export const eGFRS:Zib2017LaboratoryTestResult = {
     referenceRangeUpperLimit: function (): number | undefined {
         return undefined;
     },

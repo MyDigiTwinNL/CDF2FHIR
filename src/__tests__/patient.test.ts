@@ -1,6 +1,5 @@
 import { InputSingleton } from '../inputSingleton';
-import * as patientmf from '../__testmappings__/Patient'
-import {genderFHIRV3Codes} from '../codes/fhirv3codes'
+import {patient} from '../__testmappings__/Patient'
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 
@@ -22,9 +21,9 @@ test('Male patient', () => {
 
   InputSingleton.getInstance().setUniqueIdentifierVariable({"variableName": "project_pseudo_id", "assessmentName": "1a"})
   InputSingleton.getInstance().setInput(input);
-  expect(patientmf.birthDate()).toBe("1970");
-  expect(patientmf.gender()).toBe(genderFHIRV3Codes.male)
-  expect(patientmf.deceasedDateTime()).toBe("2010-02")
+  expect(patient.birthDate()).toBe("1970");
+  expect(patient.gender()?.display).toBe("male")
+  expect(patient.deceasedDateTime()).toBe("2010-02")
   
 
 });
@@ -40,8 +39,8 @@ test('Female patient, undefined age', () => {
   }  
 
   InputSingleton.getInstance().setInput(input);
-  expect(patientmf.birthDate()).toBe(undefined);
-  expect(patientmf.gender()).toBe(genderFHIRV3Codes.female)
+  expect(patient.birthDate()).toBe(undefined);
+  expect(patient.gender()?.display).toBe("female")
   
 
 });

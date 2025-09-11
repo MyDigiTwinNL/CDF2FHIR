@@ -1,6 +1,6 @@
 import {CodeProperties} from '../codes/codesCollection'
 
-export interface Condition {
+export interface Zib2017Condition {
     
     conditionName():string;
     

@@ -20,7 +20,7 @@ export type BloodPressureReadingEntry = {
 }
 
 
-export interface BloodPressure{
+export interface Zib2017BloodPressure{
 
     results(): BloodPressureReadingEntry[]
     

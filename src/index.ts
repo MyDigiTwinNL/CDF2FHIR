@@ -2,11 +2,11 @@ export {createCheckedAccessProxy, idToUUID, isDefined, inputValue, inputValues, 
 
 export {getSNOMEDCode, getLOINCCode, getUCUMCode, CodeProperties} from "./codes/codesCollection";
 
-export {Condition} from "./fhir-resource-interfaces/condition";
+export {Zib2017Condition as Condition} from "./fhir-resource-interfaces/zib2017condition";
 
-export {LaboratoryTestResult} from "./fhir-resource-interfaces/laboratoryTestResult";
+export {Zib2017LaboratoryTestResult as LaboratoryTestResult} from "./fhir-resource-interfaces/zib2017laboratoryTestResult";
 
-export {ResearchSubjectAndStudy} from "./fhir-resource-interfaces/researchSubjectAndStudy";
+export {Zib2017ResearchSubjectAndStudy as ResearchSubjectAndStudy} from "./fhir-resource-interfaces/zib2017researchSubjectAndStudy";
 
 export {InputSingleton} from "./inputSingleton"
 

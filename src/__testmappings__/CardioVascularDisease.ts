@@ -6,7 +6,7 @@ import {myocardialInfarction} from './MyocardialInfarction'
 import {heartFailure} from './HeartFailure'
 import {stroke} from './Stroke'
 
-import {Condition} from '../fhir-resource-interfaces/condition'
+import {Zib2017Condition} from '../fhir-resource-interfaces/zib2017condition'
 import {getSNOMEDCode,CodeProperties} from '../codes/codesCollection'
 import {assertIsDefined} from '../unexpectedInputException'
 
@@ -20,7 +20,7 @@ import {assertIsDefined} from '../unexpectedInputException'
  */
 
 
-export const cardioVascularDisease:Condition = {
+export const cardioVascularDisease:Zib2017Condition = {
     conditionName: function (): string {
         return 'CVD';
     },

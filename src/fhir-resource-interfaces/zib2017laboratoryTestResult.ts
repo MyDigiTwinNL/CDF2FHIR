@@ -1,7 +1,7 @@
 import {CodeProperties} from '../codes/codesCollection'
 
 
-export interface LaboratoryTestResult {
+export interface Zib2017LaboratoryTestResult {
     labTestName():string;
     referenceRangeUpperLimit(): number|undefined;
     referenceRangeLowerLimit(): number|undefined;

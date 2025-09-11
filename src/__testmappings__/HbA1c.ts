@@ -1,6 +1,6 @@
 import {inputValue,createCheckedAccessProxy} from '../functionsCatalog';
 import {assesmentMissed,collectedDateTime} from './lifelinesFunctions'
-import {LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
+import {Zib2017LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/zib2017laboratoryTestResult'
 import {getSNOMEDCode,getLOINCCode,getUCUMCode,CodeProperties} from '../codes/codesCollection'
 
 
@@ -51,7 +51,7 @@ https://www.umcg.nl/bw/a20a8160-9c17-4866-a9eb-191dddb43d8b
  * 
  */
 
-export const hbA1c:LaboratoryTestResult = {
+export const hbA1c:Zib2017LaboratoryTestResult = {
 
     labTestName: function (): string {
         return 'HbA1c'

@@ -4,7 +4,7 @@ import {testResultFlagsSNOMEDCodelist} from '../codes/snomedCodeLists';
 import { processInput } from '../mapper'
 import { MappingTarget } from '../transformationConfig';
 import { transformVariables } from '../functionsCatalog';
-import {TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
+import {TestResultEntry} from '../fhir-resource-interfaces/zib2017laboratoryTestResult'
 
 //test cases based on https://www.mdcalc.com/calc/3939/ckd-epi-equations-glomerular-filtration-rate-gfr
 //for 2009 CKD-EPI Creatinine (using as an input the creatinine converted from mmol/dl -Lifelines- to mg/dl)

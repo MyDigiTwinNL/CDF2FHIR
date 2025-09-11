@@ -1,6 +1,6 @@
 import {inputValue,createCheckedAccessProxy} from '../functionsCatalog';
 import {assesmentMissed,collectedDateTime} from './lifelinesFunctions'
-import {LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/laboratoryTestResult'
+import {Zib2017LaboratoryTestResult, TestResultEntry} from '../fhir-resource-interfaces/zib2017laboratoryTestResult'
 import {getSNOMEDCode,getLOINCCode,getUCUMCode,CodeProperties} from '../codes/codesCollection'
 import e from 'express';
 
@@ -55,7 +55,7 @@ https://www.umcg.nl/bw/503e8554-bf74-47c9-b175-9fc3792ba9b4
  * 
  */
 
-export const plasmaAlbumin:LaboratoryTestResult = {
+export const plasmaAlbumin:Zib2017LaboratoryTestResult = {
     labTestName: function (): string {
         return "plasma-alb"
     },
