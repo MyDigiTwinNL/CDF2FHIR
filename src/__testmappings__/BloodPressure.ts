@@ -1,9 +1,11 @@
 import { inputValue,createCheckedAccessProxy, inputValues } from '../functionsCatalog';
 import { lifelinesDateToISO } from './lifelinesFunctions'
 import moize from 'moize'
-import { cuffTypeManchetTypeCodeList } from '../codes/manchetCodeLists';
 import { measuringLocationSNOMEDCodelist } from '../codes/snomedCodeLists';
 import {assertIsDefined} from '../unexpectedInputException'
+import {BloodPressure, BloodPressureReadingEntry} from '../fhir-resource-interfaces/bloodPressure'
+import { CodeProperties, CodesCollection } from '../codes/codesCollection';
+
 
 
 /**
@@ -23,17 +25,18 @@ Related Lifelines variables:
 http://wiki.lifelines.nl/doku.php?id=blood_pressure
 */
 
-
-export type BloodPressureReadingEntry = {
-    "assessment":string,
-    "cuffType": object|undefined,
-    "measuringLocation": object|undefined,
-    "systolicBloodPressure": number|undefined,
-    "diastolicBloodPressure": number|undefined,
-    "arterialBloodPressure": number|undefined,
-    "collectedDateTime": string|undefined
+/**
+ * The object (that implements the BP interface) required to generate the BP FHIR resource.
+ */
+export const bloodPressure:BloodPressure = {
+    results: function (): BloodPressureReadingEntry[] {
+        return lifelinesResults();
+    }
 }
 
+/**
+ * Auxiliar (Lifelines-specific) functions.
+ */
 
 /**
  * It is assumed (from Lifelines data analysis) that when 'date' is missing in an assessment, the
@@ -80,7 +83,7 @@ const missedAsssesment = (wave:string) => inputValue("date",wave)==undefined
  *          uncertain about the location.
  *                
  */
-export const results = function (): BloodPressureReadingEntry[] {
+const lifelinesResults = function (): BloodPressureReadingEntry[] {
 
     const waves=["1a","2a"]
 
@@ -94,7 +97,7 @@ export const results = function (): BloodPressureReadingEntry[] {
             "systolicBloodPressure": systolicBloodPressure(wave),
             "diastolicBloodPressure": diastolicBloodPressure(wave),
             "arterialBloodPressure": arterialBloodPressure(wave),
-            "collectedDateTime": collectedDateTime(wave)
+            "collectedDateTime": lifelinesCollectedDateTime(wave)
         })    
     )
 
@@ -108,7 +111,7 @@ export const results = function (): BloodPressureReadingEntry[] {
 */
 /*1: left arm*/
 /*2: right arm*/
-export const measuring_location_codeMapping: { [key: string]: object } = {
+const measuring_location_codeMapping: { [key: string]: object } = {
     "1": measuringLocationSNOMEDCodelist.left_upper_arm_structure,
     "2": measuringLocationSNOMEDCodelist.right_upper_arm_structure
 };
@@ -118,20 +121,20 @@ export const measuring_location_codeMapping: { [key: string]: object } = {
 /*3:large adult cuff*/
 /*4:child cuff*/
 /*5:thigh cuff (xl cuff)*/
-const bp_bandsize_all_m_1_codeMapping: { [key: string]: object } = {
-    "1": cuffTypeManchetTypeCodeList.klein,
-    "2": cuffTypeManchetTypeCodeList.standard,
-    "3": cuffTypeManchetTypeCodeList.groot,
-    "4": cuffTypeManchetTypeCodeList.kind,
-    "5": cuffTypeManchetTypeCodeList.extra_groot
+const bp_bandsize_all_m_1_codeMapping: { [key: string]: string } = {
+    "1": "S",//cuffTypeManchetTypeCodeList.klein,
+    "2": "STD",//cuffTypeManchetTypeCodeList.standard,
+    "3": "L",//cuffTypeManchetTypeCodeList.groot,
+    "4": "KIND",//cuffTypeManchetTypeCodeList.kind,
+    "5": "XL",//cuffTypeManchetTypeCodeList.extra_groot
 };
 
 
-export const cuffType = function (wave: string): object|undefined {
+const cuffType = function (wave: string): CodeProperties|undefined {
     const bandsize: string|undefined = inputValue("bp_bandsize_all_m_1",wave)
 
     if (bandsize!=undefined){
-        return bp_bandsize_all_m_1_codeMapping[bandsize];
+        return CodesCollection.getInstance().getMANCHETCode(bp_bandsize_all_m_1_codeMapping[bandsize]);
     }
     else{
         return undefined
@@ -139,7 +142,7 @@ export const cuffType = function (wave: string): object|undefined {
 };
 
 
-export const measuringLocation = function (wave: string): object|undefined {
+const measuringLocation = function (wave: string): object|undefined {
     const lifelinesBpArmAll = inputValue("bp_arm_all_m_1",wave)
     if (lifelinesBpArmAll!=undefined){
         return measuring_location_codeMapping[lifelinesBpArmAll]
@@ -152,7 +155,7 @@ export const measuringLocation = function (wave: string): object|undefined {
 };
 
 
-export const systolicBloodPressure = function (wave: string): number|undefined {
+const systolicBloodPressure = function (wave: string): number|undefined {
     const sysv = inputValue("bpavg_systolic_all_m_1",wave);
     if (sysv!==undefined){
         return Number(sysv);
@@ -162,7 +165,7 @@ export const systolicBloodPressure = function (wave: string): number|undefined {
     }    
 };
 
-export const diastolicBloodPressure = function (wave: string): number|undefined {
+const diastolicBloodPressure = function (wave: string): number|undefined {
     const diav = inputValue("bpavg_diastolic_all_m_1",wave)
     if (diav!==undefined){
         return Number(diav);
@@ -172,7 +175,7 @@ export const diastolicBloodPressure = function (wave: string): number|undefined 
     }
 };
 
-export const arterialBloodPressure = function (wave: string): number|undefined {
+const arterialBloodPressure = function (wave: string): number|undefined {
     const artbpv = inputValue("bpavg_arterial_all_m_1",wave);
     if (artbpv!==undefined){
         return Number(artbpv);    
@@ -189,7 +192,7 @@ export const arterialBloodPressure = function (wave: string): number|undefined {
  * @precondition date column has never missing values
  * @returns collected date time
  */
-export const collectedDateTime = function (wave: string): string|undefined {
+const lifelinesCollectedDateTime = function (wave: string): string|undefined {
     const date = inputValue("date",wave);
     assertIsDefined(date,`Precondition failed - bloodpressure: missing date in assessment ${wave}`)
     return lifelinesDateToISO(date);    

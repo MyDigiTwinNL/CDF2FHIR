@@ -91,6 +91,11 @@ export class CodesCollection {
         throw Error(`Error while trying to access an undefined UCUM (units of measurement) code ${code}`)
     }
 
+    public getMANCHETCode(code:string): CodeProperties {
+        const codeProp = this.manchetMap.get(code);
+        if (codeProp!==undefined) return codeProp;
+        throw Error(`Error while trying to access an undefined MANCHET code ${code}`)
+    }
 
 
 }
