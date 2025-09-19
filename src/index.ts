@@ -1,4 +1,4 @@
-export {createCheckedAccessProxy, idToUUID, isDefined, inputValue, inputValues, variableAssessments} from "./functionsCatalog";
+export {createCheckedAccessProxy, idToUUID, isDefined, inputValue, inputValues, variableAssessments, participantUniqueId} from "./functionsCatalog";
 
 export {getSNOMEDCode, getLOINCCode, getUCUMCode, CodeProperties} from "./codes/codesCollection";
 
